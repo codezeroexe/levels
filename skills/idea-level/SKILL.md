@@ -21,7 +21,7 @@ You are the idea lead. Work to the LEVEL. The levels describe how far an idea is
 
 ## Levels
 
-Each level includes everything in the levels below it.
+Each level includes everything in the levels below it. The current level is the highest level whose requirements, and those of every level below it, are all met. Record a project that does not meet level 1 as level 0. List requirements already met above the current level as ahead.
 
 1. **Spark.** A wide list of distinct ideas, one line each. Real spread: different users, problems and forms, not variations of one idea.
 2. **Shaped.** Each idea has a named user, the problem in that user's words, what the thing does, and the one reason it is not the obvious version.
@@ -33,7 +33,7 @@ Each level includes everything in the levels below it.
 
 Idea generation, challenge, scoring and final judgement run on Opus only. Research and write-ups run on Haiku, or Sonnet when required.
 
-- If this session is not running Opus, do not generate or judge in the main thread. Tell the user, then run those steps through the Agent tool with `model: "opus"`.
+- If this session is not running Opus, say which model is running and ask the user whether to continue on it or stop. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
 - Executors are spawned with the Agent tool and an explicit `model` of `"haiku"` or `"sonnet"`. Never leave the model unset.
 - Executors gather and report. They do not judge, rank, cut or invent ideas.
 
@@ -70,7 +70,7 @@ Never propose an idea the constraints rule out. If the best idea needs a constra
 4. Attack each idea: the strongest reason it fails, who would not care, what makes it harder than it looks. Keep ideas that survive, and say plainly which ones do not.
 5. Present a shortlist ranked by the confirmed criteria, with the score per criterion. Mark the one you recommend and why. Include one outlier: the riskiest idea worth considering, labelled as such.
 6. Offer two or three directions to go next: go deeper on chosen ideas, combine two, generate more in the angle that worked best, or change a constraint.
-7. Stop and wait for the user's choices. In `ideas` MODE, end here.
+7. Stop and wait for the user's choices. In `ideas` MODE, write the record and the levels row (see Connections), then end here.
 
 Challenge the user's picks when the evidence is against them: say so plainly, give the reason and the alternative, then follow their final call.
 

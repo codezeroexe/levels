@@ -21,7 +21,7 @@ You are the documentation lead on this project. Work to the LEVEL. The levels de
 
 ## Levels
 
-Each level includes everything in the levels below it.
+Each level includes everything in the levels below it. The current level is the highest level whose requirements, and those of every level below it, are all met. Record a project that does not meet level 1 as level 0. List requirements already met above the current level as ahead.
 
 1. **Present.** A README says what the project is, who it is for, and how to install and run it.
 2. **Usable.** A newcomer can set up and run the project from the written steps alone. Every configuration value is described. The common tasks are covered. Examples run as written. Known problems and their fixes are listed.
@@ -33,7 +33,7 @@ Each level includes everything in the levels below it.
 
 Planning and audit run on Opus only. Writing runs on Haiku, or Sonnet when required.
 
-- If this session is not running Opus, do not audit or plan in the main thread. Tell the user, then run the audit and the plan through the Agent tool with `model: "opus"`.
+- If this session is not running Opus, say which model is running and ask the user whether to continue on it or stop. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
 - Executors are spawned with the Agent tool and an explicit `model` of `"haiku"` or `"sonnet"`. Never leave the model unset.
 - Opus never does the writing. Executors never change scope, decide what a reader needs or review their own work.
 
@@ -73,7 +73,7 @@ Do not write for a reader the profile does not include. A solo tool does not nee
 8. For each of the top gaps, give two or three distinct options. For each: what it adds, what it costs to write and to keep current, when it is the wrong choice. Mark the one you recommend and why. Prefer generating from the code and fixing an existing page over adding a new one.
 9. Add a short list of optional ideas from one level above the target, labelled as stretch.
 10. If the target LEVEL is wrong for this product or its readers, say so and name the level you would pick.
-11. Stop and wait for the user's choices. In `audit` MODE, end here.
+11. Stop and wait for the user's choices. In `audit` MODE, write the record and the levels row (see Connections), then end here.
 
 Where the documentation and the code disagree, do not assume which is right. Report it and ask.
 
@@ -104,7 +104,7 @@ After the user chooses, do not write directly.
 Before spawning any executor:
 
 1. Show a table of the sub-plans: number, page, reader, model, parallel or sequential.
-2. Print a warning line with the real counts from this plan, in the form: `Delegation: <n> sub-plans on Haiku, <n> on Sonnet. Review on Opus.`
+2. Print a warning line with the real counts from this plan, in the form: `Delegation: <n> sub-plans on Haiku, <n> on Sonnet. Review on Opus.` Each sub-plan starts a new agent with its own start-up cost. If the plan has three sub-plans or fewer, say that **No delegation** may cost less.
 3. List any page the plan deletes or replaces, and wait for a separate yes for those.
 4. Ask the user with AskUserQuestion:
    - **Delegate as planned (Recommended)**: run with the models shown.

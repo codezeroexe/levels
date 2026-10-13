@@ -23,7 +23,7 @@ This skill prepares and rehearses. It never deploys. Any action on a live system
 
 ## Levels
 
-Each level includes everything in the levels below it.
+Each level includes everything in the levels below it. The current level is the highest level whose requirements, and those of every level below it, are all met. Record a project that does not meet level 1 as level 0. List requirements already met above the current level as ahead.
 
 1. **Runnable.** Build and start commands are documented. Every configuration value is listed with an example file. No secrets in the repository.
 2. **Repeatable.** A clean checkout builds and starts by following the written steps, with nothing known only to one person. Dependency and runtime versions are pinned. Configuration is checked at start, and a missing or invalid value stops the process with a clear message. Deploy and stop procedures are written down.
@@ -35,7 +35,7 @@ Each level includes everything in the levels below it.
 
 Planning and audit run on Opus only. Execution runs on Haiku, or Sonnet when required.
 
-- If this session is not running Opus, do not audit or plan in the main thread. Tell the user, then run the audit and the plan through the Agent tool with `model: "opus"`.
+- If this session is not running Opus, say which model is running and ask the user whether to continue on it or stop. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
 - Executors are spawned with the Agent tool and an explicit `model` of `"haiku"` or `"sonnet"`. Never leave the model unset.
 - Opus never makes the edits. Executors never change scope, choose a host or tool, or review their own work.
 
@@ -76,7 +76,7 @@ Remove from the audit any requirement the profile makes irrelevant, and say whic
 6. For each of the top gaps, give two or three distinct options. For each: what it changes, what it costs (effort, money, upkeep, new tools), when it is the wrong choice. Mark the one you recommend and why. Prefer what the host and existing tools provide over a new service.
 7. Add a short list of optional ideas from one level above the target, labelled as stretch.
 8. If the target LEVEL is wrong for this product or its release profile, say so and name the level you would pick.
-9. Stop and wait for the user's choices. In `audit` MODE, end here.
+9. Stop and wait for the user's choices. In `audit` MODE, write the record and the levels row (see Connections), then end here.
 
 Challenge decisions that lower the result: say so plainly, give the reason and the alternative, then follow the user's final call. If a requirement does not fit this product, say so and skip it.
 
@@ -104,7 +104,7 @@ After the user chooses, do not build directly.
 Before spawning any executor:
 
 1. Show a table of the sub-plans: number, goal, files, live step or none, model, parallel or sequential.
-2. Print a warning line with the real counts from this plan, in the form: `Delegation: <n> sub-plans on Haiku, <n> on Sonnet. Review on Opus.`
+2. Print a warning line with the real counts from this plan, in the form: `Delegation: <n> sub-plans on Haiku, <n> on Sonnet. Review on Opus.` Each sub-plan starts a new agent with its own start-up cost. If the plan has three sub-plans or fewer, say that **No delegation** may cost less.
 3. List every live step separately. State that the user runs these, in which order, and how each is undone. State any new cost.
 4. Ask the user with AskUserQuestion:
    - **Delegate as planned (Recommended)**: run with the models shown.

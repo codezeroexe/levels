@@ -22,7 +22,7 @@ You are the backend lead on this project. Work to the LEVEL. The levels describe
 
 ## Levels
 
-Each level includes everything in the levels below it.
+Each level includes everything in the levels below it. The current level is the highest level whose requirements, and those of every level below it, are all met. Record a project that does not meet level 1 as level 0. List requirements already met above the current level as ahead.
 
 1. **Working.** Runs from a documented command. Clear module boundaries. Configuration from the environment, no secrets in the code. Input is validated where it enters the system. Errors do not crash the process or leak internals to the caller.
 2. **Reliable.** Tests cover the core logic and run with one command. One consistent error format. Schema and stored-data changes are versioned. Structured logs. Timeouts on every external call. Writes that can be retried are idempotent.
@@ -53,7 +53,7 @@ After the catalogue, add the cases specific to this product's own rules that the
 
 Planning and audit run on Opus only. Execution runs on Haiku, or Sonnet when required.
 
-- If this session is not running Opus, do not audit or plan in the main thread. Tell the user, then run the audit and the plan through the Agent tool with `model: "opus"`.
+- If this session is not running Opus, say which model is running and ask the user whether to continue on it or stop. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
 - Executors are spawned with the Agent tool and an explicit `model` of `"haiku"` or `"sonnet"`. Never leave the model unset.
 - Opus never makes the edits. Executors never change scope, make architecture decisions or review their own work.
 
@@ -103,7 +103,7 @@ Never recommend a change the host cannot support. If a requirement needs a diffe
 4. For each of the top gaps, give two or three distinct options. For each: what it changes, what it costs (effort, risk, performance, new dependencies), when it is the wrong choice. Mark the one you recommend and why. Prefer what the language, platform or an installed dependency already provides over a new dependency.
 5. Add a short list of optional ideas from one level above the target, labelled as stretch.
 6. If the target LEVEL is wrong for this product or its hosting profile, say so and name the level you would pick. Do not push a small tool toward level 4 or 5.
-7. Stop and wait for the user's choices. In `audit` MODE, end here.
+7. Stop and wait for the user's choices. In `audit` MODE, write the record and the levels row (see Connections), then end here.
 
 Challenge decisions that lower the result: say so plainly, give the reason and the alternative, then follow the user's final call. If a requirement does not fit this product, say so and skip it.
 
@@ -132,7 +132,7 @@ After the user chooses, do not build directly.
 Before spawning any executor:
 
 1. Show a table of the sub-plans: number, goal, files, data risk, model, parallel or sequential.
-2. Print a warning line with the real counts from this plan, in the form: `Delegation: <n> sub-plans on Haiku, <n> on Sonnet. Review on Opus.`
+2. Print a warning line with the real counts from this plan, in the form: `Delegation: <n> sub-plans on Haiku, <n> on Sonnet. Review on Opus.` Each sub-plan starts a new agent with its own start-up cost. If the plan has three sub-plans or fewer, say that **No delegation** may cost less.
 3. If any sub-plan has a data risk, list those sub-plans separately and state what they change and how to undo it. They need the user's explicit yes, apart from the model choice.
 4. Ask the user with AskUserQuestion:
    - **Delegate as planned (Recommended)**: run with the models shown.
@@ -161,7 +161,7 @@ For anything that failed, write a corrective sub-plan, assign a model the same w
 
 This skill is one of the connected level skills (`levels` runs them as one workflow, `levels-status` shows them all, `levels-next` picks the next one to run). Use the names as the skill listing shows them (a name may carry a prefix).
 
-**Shared record.** At the start, read `LEVELS.md` in the project root if it exists. If it holds a confirmed hosting profile, show it and ask only whether it is still correct instead of running Step 0 again. Reuse the constraint profile and any blueprint. At the end, create or update its backend section with: the hosting profile, target and reached level, edge case counts, open gaps, and the date. Keep other skills' sections intact.
+**Shared record.** At the start, read `LEVELS.md` in the project root if it exists. If it holds a confirmed hosting profile, show it and ask only whether it is still correct instead of running Step 0 again. Reuse the constraint profile and any blueprint. At the end, create or update its backend section with: the hosting profile, target and reached level, edge case counts, the list of edge cases not handled (entry point, case, what goes wrong), open gaps, and the date. Keep other skills' sections intact.
 
 **Levels block.** Keep this block at the top of `LEVELS.md`, one row per layer, and update only this skill's row: current level, target level, count of open gaps. Tools read it, so keep the format exact.
 

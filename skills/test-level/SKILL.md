@@ -21,7 +21,7 @@ You are the test lead on this project. Work to the LEVEL. The levels describe ho
 
 ## Levels
 
-Each level includes everything in the levels below it.
+Each level includes everything in the levels below it. The current level is the highest level whose requirements, and those of every level below it, are all met. Record a project that does not meet level 1 as level 0. List requirements already met above the current level as ahead.
 
 1. **Checked.** The project builds and starts from a documented command. A written checklist covers the main flows by hand. Lint or type checks pass.
 2. **Core covered.** Automated tests cover the core logic and run with one command. They give the same result every run, need no manual setup, and finish fast enough to run before every change. Breaking the core logic makes a test fail.
@@ -33,7 +33,7 @@ Each level includes everything in the levels below it.
 
 Planning and audit run on Opus only. Execution runs on Haiku, or Sonnet when required.
 
-- If this session is not running Opus, do not audit or plan in the main thread. Tell the user, then run the audit and the plan through the Agent tool with `model: "opus"`.
+- If this session is not running Opus, say which model is running and ask the user whether to continue on it or stop. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
 - Executors are spawned with the Agent tool and an explicit `model` of `"haiku"` or `"sonnet"`. Never leave the model unset.
 - Opus never makes the edits. Executors never change scope, decide what is worth testing or review their own work.
 
@@ -41,7 +41,7 @@ Planning and audit run on Opus only. Execution runs on Haiku, or Sonnet when req
 
 Before the audit, establish what the tests must protect.
 
-1. Look first. Find the test runner, test commands, test folders, fixtures, CI configuration and any coverage settings. Read `LEVELS.md` if it exists: reuse the hosting profile, the constraint profile and the backend edge case table.
+1. Look first. Find the test runner, test commands, test folders, fixtures, CI configuration and any coverage settings. Read `LEVELS.md` if it exists: reuse the hosting profile, the constraint profile and the backend list of edge cases not handled.
 2. Ask the user only what the repository does not answer, with AskUserQuestion, in at most two rounds.
 
    Round one:
@@ -62,7 +62,7 @@ Before the audit, establish what the tests must protect.
 ## Step 1: Audit (Opus)
 
 1. Run the full suite twice. Record pass and fail counts, run time, and any test whose result differed between runs.
-2. Map tests to behaviour. For each critical flow and each entry point in scope, record: tested end to end, tested in part, or not tested. Cite the test file. If `LEVELS.md` holds an edge case table, check each case marked handled for a test that proves it.
+2. Map tests to behaviour. For each critical flow and each entry point in scope, record: tested end to end, tested in part, or not tested. Cite the test file. If `LEVELS.md` holds a list of edge cases not handled, record each as a behaviour with no test.
 3. Judge test quality, not only presence. Flag tests that assert nothing meaningful, tests that only repeat the implementation, tests that depend on order, time, network or each other, and tests so slow or fragile that they get skipped.
 4. Run a deliberate-break check on a sample of the critical paths: change one line of logic, run the tests, record whether any test failed, then restore the line. Do this in a throwaway copy or worktree, never in the user's working files, and confirm the original is unchanged afterwards. A break that no test catches is a gap, however high coverage is.
 5. State the level the project is at now, with one line of evidence per requirement. Say what is already sound and must be kept.
@@ -70,7 +70,7 @@ Before the audit, establish what the tests must protect.
 7. For each of the top gaps, give two or three distinct options. For each: what it adds, what it costs (effort, run time, upkeep, new dependencies), when it is the wrong choice. Mark the one you recommend and why. Prefer the existing runner and what the platform provides over a new tool.
 8. Add a short list of optional ideas from one level above the target, labelled as stretch.
 9. If the target LEVEL is wrong for this product, say so and name the level you would pick. Do not push a small tool toward level 4 or 5.
-10. Stop and wait for the user's choices. In `audit` MODE, end here.
+10. Stop and wait for the user's choices. In `audit` MODE, write the record and the levels row (see Connections), then end here.
 
 Report bugs the audit finds as bugs, separate from test gaps. Do not fix them here.
 
@@ -99,7 +99,7 @@ After the user chooses, do not build directly.
 Before spawning any executor:
 
 1. Show a table of the sub-plans: number, goal, files, model, parallel or sequential.
-2. Print a warning line with the real counts from this plan, in the form: `Delegation: <n> sub-plans on Haiku, <n> on Sonnet. Review on Opus.`
+2. Print a warning line with the real counts from this plan, in the form: `Delegation: <n> sub-plans on Haiku, <n> on Sonnet. Review on Opus.` Each sub-plan starts a new agent with its own start-up cost. If the plan has three sub-plans or fewer, say that **No delegation** may cost less.
 3. State how much the plan adds to the suite's run time, measured against the time budget.
 4. Ask the user with AskUserQuestion:
    - **Delegate as planned (Recommended)**: run with the models shown.
@@ -113,7 +113,7 @@ Before spawning any executor:
 - Immediately before each spawn, print one line: `Sub-plan 3 → Haiku: <goal>`.
 - Each executor starts with no memory of this conversation. Pass it the whole sub-plan plus the context it needs.
 - Run parallel sub-plans in one message. Run sequential ones in order.
-- Executors write tests only. They never change product code to make a test pass, never weaken, skip or delete a failing test, and never call real paid or production services.
+- Executors write tests, test configuration and the test command only. They never change product code to make a test pass, never weaken, skip or delete a failing test, and never call real paid or production services.
 - If a new test fails because the product is wrong, the executor stops and reports the failure with its output. That is a found bug, not a blocked sub-plan.
 - If an executor reports a sub-plan unclear or blocked, do not let it guess. Rewrite the sub-plan on Opus, or ask the user.
 
@@ -141,7 +141,8 @@ test: 2/3 gaps=7
 
 - A test reveals a bug in server logic, data handling or an entry point: offer `backend-level`, scoped to that entry point, with the failing test as evidence.
 - A test reveals a broken or missing state in the interface: offer `design-level`, with the list of states.
-- There is no edge case table to test against and the backend is in scope: offer `backend-level` in `audit` mode to produce one.
+- The product cannot be tested as written (for example a fixed port, a fixed data path, or work that starts when a file is loaded): offer `code-level` for a structural seam or `backend-level` for a behaviour change, and name the exact seam the tests need.
+- There is no list of edge cases to test against and the backend is in scope: offer `backend-level` in `audit` mode to produce one.
 
 **Handoffs into this skill.** When called by another skill, use the context passed in, skip questions the shared record answers, and return the result to the calling skill instead of offering a further handoff. When called after a build, test what that build changed first.
 

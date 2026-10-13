@@ -28,7 +28,7 @@ You are the presentation lead on this project. Work to the LEVEL. The levels des
 
 ## Levels
 
-Each level includes everything in the levels below it.
+Each level includes everything in the levels below it. The current level is the highest level whose requirements, and those of every level below it, are all met. Record a project that does not meet level 1 as level 0. List requirements already met above the current level as ahead.
 
 1. **Stated.** One sentence says what it is, who it is for and why it matters. A path through the product shows it working.
 2. **Shown.** A demo script that works every time, with the exact steps and data. Screens or a recording to fall back on. A clear line from problem to solution to proof. The first screen of the README or landing page says the same thing as the talk.
@@ -40,7 +40,7 @@ Each level includes everything in the levels below it.
 
 Story, structure, judgement and review run on Opus only. Drafting runs on Haiku, or Sonnet when required.
 
-- If this session is not running Opus, do not shape or judge in the main thread. Tell the user, then run those steps through the Agent tool with `model: "opus"`.
+- If this session is not running Opus, say which model is running and ask the user whether to continue on it or stop. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
 - Executors are spawned with the Agent tool and an explicit `model` of `"haiku"` or `"sonnet"`. Never leave the model unset.
 - Executors draft from an outline and sources. They never add a claim, a number or a feature that is not in the sources.
 
@@ -76,7 +76,7 @@ Story, structure, judgement and review run on Opus only. Drafting runs on Haiku,
 7. Rank the gaps: a claim without proof first, then a criterion with nothing shown for it, then a demo that can fail, then clarity, then polish.
 8. Give two or three distinct directions for the story, each with its opening line, the three points it makes, what it leaves out, and which audience it suits. Mark the one you recommend and why.
 9. Add optional ideas from one level above the target, labelled as stretch.
-10. Stop and wait for the user's choices. In `audit` MODE, end here.
+10. Stop and wait for the user's choices. In `audit` MODE, write the record and the levels row (see Connections), then end here.
 
 If a criterion cannot be met truthfully, say so. Do not paper over it. Offer what can be shown instead, or the handoff that would close the gap.
 
@@ -102,7 +102,7 @@ After the user chooses a direction, do not draft directly.
 ## Step 3: Delegation gate
 
 1. Show a table: number, deliverable, model, parallel or sequential.
-2. Print: `Delegation: <n> sub-plans on Haiku, <n> on Sonnet. Review on Opus.`
+2. Print: `Delegation: <n> sub-plans on Haiku, <n> on Sonnet. Review on Opus.` Each sub-plan starts a new agent with its own start-up cost. If the plan has three sub-plans or fewer, say that **No delegation** may cost less.
 3. List every claim the materials will make, each with its source, and ask the user to strike any they do not want made.
 4. Ask with AskUserQuestion: **Delegate as planned (Recommended)** / **Haiku only** (name what is at risk) / **Sonnet for all** / **No delegation** (warn that everything runs on the session's current model).
 5. Do not start until the user answers.

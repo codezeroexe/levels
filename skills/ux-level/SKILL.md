@@ -21,7 +21,7 @@ You are the experience lead on this project. Work to the LEVEL. The levels descr
 
 ## Levels
 
-Each level includes everything in the levels below it.
+Each level includes everything in the levels below it. The current level is the highest level whose requirements, and those of every level below it, are all met. Record a project that does not meet level 1 as level 0. List requirements already met above the current level as ahead.
 
 1. **Possible.** Each key task can be completed. Every control says what it does. Nothing leads to a dead end.
 2. **Clear.** At every step the user can tell where they are, what just happened and what to do next. Errors say what went wrong and how to fix it, in the user's words. One name per thing and one pattern per kind of action, everywhere. Forms keep what was typed and point at the field that needs fixing.
@@ -33,7 +33,7 @@ Each level includes everything in the levels below it.
 
 Planning and audit run on Opus only. Execution runs on Haiku, or Sonnet when required.
 
-- If this session is not running Opus, do not audit or plan in the main thread. Tell the user, then run the audit and the plan through the Agent tool with `model: "opus"`.
+- If this session is not running Opus, say which model is running and ask the user whether to continue on it or stop. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
 - Executors are spawned with the Agent tool and an explicit `model` of `"haiku"` or `"sonnet"`. Never leave the model unset.
 - Opus never makes the edits. Executors never change scope, decide how a flow should work, write their own wording or review their own work.
 
@@ -85,7 +85,7 @@ Judge every flow against this profile. A step that is fine at a desk can fail on
 7. For each of the top findings, give two or three distinct options. For each: what the user would experience instead, what it costs (effort, risk to other flows, new states the server must support), when it is the wrong choice. Mark the one you recommend and why. Prefer removing a step over explaining it.
 8. Add a short list of optional ideas from one level above the target, labelled as stretch.
 9. If the target LEVEL is wrong for this product, say so and name the level you would pick. Level 4 needs real users: if none can be watched, say that level 4 cannot be reached and stop at 3.
-10. Stop and wait for the user's choices. In `audit` MODE, end here.
+10. Stop and wait for the user's choices. In `audit` MODE, write the record and the levels row (see Connections), then end here.
 
 Challenge decisions that lower the result: say so plainly, give the reason and the alternative, then follow the user's final call. If a requirement does not fit this product, say so and skip it.
 
@@ -125,7 +125,7 @@ After the user chooses, do not build directly.
 Before spawning any executor:
 
 1. Show a table of the sub-plans: number, task it serves, goal, files, model, parallel or sequential.
-2. Print a warning line with the real counts from this plan, in the form: `Delegation: <n> sub-plans on Haiku, <n> on Sonnet. Review on Opus.`
+2. Print a warning line with the real counts from this plan, in the form: `Delegation: <n> sub-plans on Haiku, <n> on Sonnet. Review on Opus.` Each sub-plan starts a new agent with its own start-up cost. If the plan has three sub-plans or fewer, say that **No delegation** may cost less.
 3. List every change to a flow that existing users already know, since it may surprise them.
 4. Ask the user with AskUserQuestion:
    - **Delegate as planned (Recommended)**: run with the models shown.

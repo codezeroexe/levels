@@ -21,7 +21,7 @@ You are the design lead on this project. Work to the LEVEL. The levels describe 
 
 ## Levels
 
-Each level includes everything in the levels below it.
+Each level includes everything in the levels below it. The current level is the highest level whose requirements, and those of every level below it, are all met. Record a project that does not meet level 1 as level 0. List requirements already met above the current level as ahead.
 
 1. **Clean.** Consistent spacing, one type scale, a small palette with roles, text that is easy to read on its background, works at phone width. Component-library defaults are acceptable.
 2. **Considered.** All colour and spacing come from tokens. Each typeface has one job, two or three families at most. Loading, empty and error states are designed. Hover, focus and pressed states on every control. Numbers that change keep a fixed width.
@@ -33,7 +33,7 @@ Each level includes everything in the levels below it.
 
 Planning and audit run on Opus only. Execution runs on Haiku, or Sonnet when required.
 
-- If this session is not running Opus, do not audit or plan in the main thread. Tell the user, then run the audit and the plan through the Agent tool with `model: "opus"`.
+- If this session is not running Opus, say which model is running and ask the user whether to continue on it or stop. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
 - Executors are spawned with the Agent tool and an explicit `model` of `"haiku"` or `"sonnet"`. Never leave the model unset.
 - Opus never makes the edits. Executors never change scope, make design decisions or review their own work.
 
@@ -44,7 +44,7 @@ Planning and audit run on Opus only. Execution runs on Haiku, or Sonnet when req
 3. For each of the top gaps, give two or three distinct options. For each: what it changes, what it costs (effort, risk, performance), when it is the wrong choice. Mark the one you recommend and why.
 4. Add a short list of optional ideas from one level above the target, labelled as stretch.
 5. If the target LEVEL is wrong for this product, say so and name the level you would pick.
-6. Stop and wait for the user's choices. In `audit` MODE, end here.
+6. Stop and wait for the user's choices. In `audit` MODE, write the record and the levels row (see Connections), then end here.
 
 Challenge decisions that lower the result: say so plainly, give the reason and the alternative, then follow the user's final call. If a requirement does not fit this product, say so and skip it.
 
@@ -71,7 +71,7 @@ After the user chooses, do not build directly.
 Before spawning any executor:
 
 1. Show a table of the sub-plans: number, goal, files, model, parallel or sequential.
-2. Print a warning line with the totals, with the real counts from this plan, in the form: `Delegation: <n> sub-plans on Haiku, <n> on Sonnet. Review on Opus.`
+2. Print a warning line with the totals, with the real counts from this plan, in the form: `Delegation: <n> sub-plans on Haiku, <n> on Sonnet. Review on Opus.` Each sub-plan starts a new agent with its own start-up cost. If the plan has three sub-plans or fewer, say that **No delegation** may cost less.
 3. Ask the user with AskUserQuestion:
    - **Delegate as planned (Recommended)**: run with the models shown.
    - **Haiku only**: downgrade every Sonnet sub-plan. Name which sub-plans are at risk.

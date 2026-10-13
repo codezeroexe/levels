@@ -99,6 +99,8 @@ Accessibility requirements (WCAG AA contrast, keyboard access, visible focus) ar
 - Context, audit, options, planning and review are written to run on Opus. The skills set `model: opus` in their frontmatter.
 - Execution is delegated to Haiku, or to Sonnet where the work cannot be fully written out in advance. `restyle-level` is the exception and defaults to Sonnet for first screens.
 - Before any sub-plan runs, the skill prints a line such as `Delegation: 6 sub-plans on Haiku, 2 on Sonnet. Review on Opus.` and offers four choices: delegate as planned, Haiku only, Sonnet for all, or no delegation. `data-level` and `security-level` replace "Haiku only" with "Haiku where allowed", because they keep migrations and sign-in work off Haiku.
+- A skill's `model` setting changes the model of your session for the rest of that turn. `levels-help` and `levels-status` set Haiku, `levels-next` sets Sonnet, and the rest set Opus.
+- If the session cannot use Opus, the skill says which model is running and asks whether to continue or stop.
 - Nothing builds until you answer. A skill started by another skill asks again.
 - An Opus audit of a large project uses a lot of tokens. To spend least: run audits only, pick few gaps and keep the target level modest.
 
@@ -137,11 +139,13 @@ Version 0.1.0.
 Checked:
 
 - `claude plugin validate . --strict` passes for the marketplace manifest, the plugin manifest and the `skills/` folder (Claude Code 2.1.296).
+- The `model` setting in the frontmatter changes the session model as described above.
 
 Not checked:
 
-- No skill has been run from start to finish.
-- `model: opus` in the frontmatter, and the fallback text for sessions not running Opus, have not been verified.
+- Only `levels-help`, `levels-status`, `levels-next`, `design-level`, `backend-level` and `test-level` have been run, once each, on one small sample project. `test-level` is the only skill run in `build` mode. The person testing answered the skills' questions in place of a user.
+- The other twelve skills, including the `levels` conductor, have not been run.
+- The path for sessions that cannot use Opus has not been run.
 - Installing through the marketplace has not been tried from the published repository.
 - Handoffs between skills, and the conductor suppressing handoffs in the skills it calls, have not been observed in a real run.
 - The `LEVELS.md` format has gaps, listed in the format page.
@@ -157,6 +161,8 @@ To contribute, read [CONTRIBUTING.md](CONTRIBUTING.md).
 ## Credits
 
 The simplification ladder in `code-level` is adapted from the [ponytail](https://github.com/DietrichGebert/ponytail) plugin by Dietrich Gebert, which is MIT licensed.
+
+`restyle-level` borrows from the [impeccable](https://github.com/pbakaus/impeccable) project by Paul Bakaus, which is licensed under Apache 2.0. A copy of that licence is in [third-party/impeccable-LICENSE](third-party/impeccable-LICENSE).
 
 ## Licence
 

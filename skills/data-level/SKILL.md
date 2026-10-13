@@ -28,7 +28,7 @@ You are the data lead on this project. Work to the LEVEL. The levels describe ho
 
 ## Levels
 
-Each level includes everything in the levels below it.
+Each level includes everything in the levels below it. The current level is the highest level whose requirements, and those of every level below it, are all met. Record a project that does not meet level 1 as level 0. List requirements already met above the current level as ahead.
 
 1. **Stored.** Every kind of data has one known place and a recognisable shape. Names say what things are. Nothing is kept twice by accident.
 2. **Structured.** The shape is written down explicitly and carries a version. The store itself enforces types and required fields. Identifiers and relationships are defined. Changes to the shape are scripted, not done by hand. No meaning is packed into free text or position.
@@ -40,7 +40,7 @@ Each level includes everything in the levels below it.
 
 Planning and audit run on Opus only. Execution runs on Haiku, or Sonnet when required.
 
-- If this session is not running Opus, do not audit or plan in the main thread. Tell the user, then run the audit and the plan through the Agent tool with `model: "opus"`.
+- If this session is not running Opus, say which model is running and ask the user whether to continue on it or stop. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
 - Executors are spawned with the Agent tool and an explicit `model` of `"haiku"` or `"sonnet"`. Never leave the model unset.
 - Opus never makes the edits. Executors never change scope, design a shape or review their own work.
 
@@ -86,7 +86,7 @@ Planning and audit run on Opus only. Execution runs on Haiku, or Sonnet when req
 6. For each of the top findings, give two or three distinct options. For each: what changes, what it costs (effort, migration risk, downtime, effect on readers), when it is the wrong choice. Mark the one you recommend. Prefer a rule the store enforces over a check in application code.
 7. Add optional ideas from one level above the target, labelled as stretch.
 8. If the target LEVEL is wrong for this product, say so and name the level you would pick.
-9. Stop and wait for the user's choices. In `audit` MODE, end here.
+9. Stop and wait for the user's choices. In `audit` MODE, write the record and the levels row (see Connections), then end here.
 
 Challenge decisions that lower the result, then follow the user's final call.
 
@@ -113,7 +113,7 @@ After the user chooses, do not build directly.
 ## Step 3: Delegation gate
 
 1. Show a table: number, goal, files, live step or none, model, parallel or sequential.
-2. Print: `Delegation: <n> sub-plans on Haiku, <n> on Sonnet. Review on Opus.`
+2. Print: `Delegation: <n> sub-plans on Haiku, <n> on Sonnet. Review on Opus.` Each sub-plan starts a new agent with its own start-up cost. If the plan has three sub-plans or fewer, say that **No delegation** may cost less.
 3. List every live step separately, in order, with its backup and its way back. These need the user's explicit yes, and the user runs them.
 4. Ask with AskUserQuestion: **Delegate as planned (Recommended)** / **Sonnet for all** / **Haiku where allowed** (migrations and repairs stay on Sonnet; name the sub-plans at risk) / **No delegation** (warn that every edit runs on the session's current model).
 5. Do not start until the user answers.

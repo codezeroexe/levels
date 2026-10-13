@@ -23,7 +23,7 @@ This skill changes structure and never behaviour. Code is worth improving in pro
 
 ## Levels
 
-Each level includes everything in the levels below it.
+Each level includes everything in the levels below it. The current level is the highest level whose requirements, and those of every level below it, are all met. Record a project that does not meet level 1 as level 0. List requirements already met above the current level as ahead.
 
 1. **Readable.** Formatting is consistent. Names say what things are. No commented-out or unreachable code. The build runs without warnings.
 2. **Organised.** Each module has one job and its name says which. No sizeable logic is duplicated. Functions and files are small enough to hold in mind. A linter and formatter are set up and pass. Every dependency is used. Nothing is built for a need that does not exist yet.
@@ -74,7 +74,7 @@ If the project already uses a marker for this, use that one.
 
 Planning and audit run on Opus only. Execution runs on Haiku, or Sonnet when required.
 
-- If this session is not running Opus, do not audit or plan in the main thread. Tell the user, then run the audit and the plan through the Agent tool with `model: "opus"`.
+- If this session is not running Opus, say which model is running and ask the user whether to continue on it or stop. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
 - Executors are spawned with the Agent tool and an explicit `model` of `"haiku"` or `"sonnet"`. Never leave the model unset.
 - Opus never makes the edits. Executors never change scope, choose a structure or review their own work.
 
@@ -126,7 +126,7 @@ Match the target to the profile. Code that will be thrown away does not need lev
 8. For each of the top findings, give two or three distinct options, ordered by ladder rung, highest first: remove it, reuse what exists, use the standard library or platform, then restructure. For each: what the code becomes, lines added and removed, what it costs (effort, risk, how much is touched), when it is the wrong choice. Always include leaving it as it is, with what that costs. Recommend the highest rung that holds, and say why the rungs above it do not.
 9. Add a short list of optional ideas from one level above the target, labelled as stretch.
 10. If the target LEVEL is wrong for this code, say so and name the level you would pick.
-11. Stop and wait for the user's choices. In `audit` MODE, end here.
+11. Stop and wait for the user's choices. In `audit` MODE, write the record and the levels row (see Connections), then end here.
 
 Report bugs found while reading as bugs, separate from structural findings. Do not fix them here: a fix changes behaviour.
 
@@ -160,7 +160,7 @@ Before spawning any executor:
 
 1. Confirm the working tree is clean and the work is on its own branch. If not, ask the user to commit or stash first. Each sub-plan becomes one commit, so any step can be undone alone.
 2. Show a table of the sub-plans: number, goal, files, model, parallel or sequential.
-3. Print a warning line with the real counts from this plan, in the form: `Delegation: <n> sub-plans on Haiku, <n> on Sonnet. Review on Opus.` Print the expected totals under it: `Net: -<n> lines, -<n> files, -<n> dependencies.`
+3. Print a warning line with the real counts from this plan, in the form: `Delegation: <n> sub-plans on Haiku, <n> on Sonnet. Review on Opus.` Each sub-plan starts a new agent with its own start-up cost. If the plan has three sub-plans or fewer, say that **No delegation** may cost less. Print the expected totals under it: `Net: -<n> lines, -<n> files, -<n> dependencies.`
 4. List separately every sub-plan that removes code or a dependency, and every one that touches a fixed surface. Those need the user's explicit yes.
 5. Ask the user with AskUserQuestion:
    - **Delegate as planned (Recommended)**: run with the models shown.

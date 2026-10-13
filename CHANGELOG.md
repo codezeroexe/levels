@@ -15,8 +15,18 @@ First packaged version.
 - Issue templates for a bug in a skill and for a new skill proposal.
 - `templates/layer-skill/SKILL.md`, a template for a new layer skill.
 
+### Changed after the first test run
+
+- Level 0 is defined as "below level 1", and the current level is the highest level with every lower requirement met.
+- `audit` mode writes the record before it ends.
+- `backend-level` records the edge cases not handled, and `test-level` reads that list.
+- `levels-next` sets `model: sonnet`.
+- A session that cannot use Opus is asked whether to continue, instead of moving the audit into a sub-agent.
+- The delegation gate warns when a plan is small.
+- `test-level` may write test configuration and the test command, and offers a handoff when the product cannot be tested as written.
+- `levels-status` reads the date from the section and compares it with the last commit.
+
 ### Known limits
 
-- No skill has been run from start to finish.
-- The `model` frontmatter and the fallback for sessions not running Opus are unverified.
+- Six of the eighteen skills have been run, once each. The `levels` conductor and handoffs have not.
 - Parts of the `LEVELS.md` format are not yet defined. See the format page.

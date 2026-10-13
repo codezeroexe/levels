@@ -40,13 +40,14 @@ Rules:
 ```
 
 - `<key>` is one of the keys in the table below.
-- `<current>` and `<target>` are whole numbers from 1 to 5.
-- `<count>` is a whole number, 0 or more.
+- `<target>` is a whole number from 1 to 5.
+- `<current>` is a whole number from 0 to 5. It is the highest level whose requirements, and those of every level below it, are all met. `0` means the project does not meet level 1.
+- `<count>` is a whole number, 0 or more. It is the number of entries in the open list of the skill's section, named in the table below.
 
 As a regular expression:
 
 ```
-^(idea|ux|restyle|design|backend|data|test|security|perf|code|docs|ship|pitch): [1-5]/[1-5] gaps=\d+$
+^(idea|ux|restyle|design|backend|data|test|security|perf|code|docs|ship|pitch): [0-5]/[1-5] gaps=\d+$
 ```
 
 | Key | Written by | What `gaps` counts |
@@ -85,7 +86,7 @@ Each skill creates or updates one section. The content below is what each `SKILL
 | `ux-level` | UX | user profile, target and reached level, steps and decisions per key task before and after, open findings marked as expert review or observed, date |
 | `restyle-level` | restyle | profile, reading of the current design, every direction shown with its status and reason, contract of the chosen direction, level reached, date |
 | `design-level` | design | target and reached level, what was chosen, open gaps, date |
-| `backend-level` | backend | hosting profile, target and reached level, edge case counts, open gaps, date |
+| `backend-level` | backend | hosting profile, target and reached level, edge case counts, list of edge cases not handled, open gaps, date |
 | `fullstack-level` | design and backend | both sections above, plus the cross-layer result and date |
 | `data-level` | data | data profile, target and reached level, integrity counts, pending live steps, open findings, date. No real data values |
 | `test-level` | test | test profile, target and reached level, critical behaviours tested and not tested, bugs found, date |
@@ -97,6 +98,18 @@ Each skill creates or updates one section. The content below is what each `SKILL
 | `pitch-level` | pitch | audience profile, chosen story, target and reached level, criteria with no evidence, date |
 
 Profiles are reused across skills. For example, `backend-level` writes the hosting profile, and `design-level`, `test-level`, `security-level`, `perf-level` and `ship-level` read it.
+
+### First lines of a section
+
+Defined from version 0.1.0 of this page; the skills do not yet state it themselves. A section starts with these lines, so `levels-status` can read them:
+
+```
+- Date: 2026-01-31
+- Target level: 3
+- Reached level: 2
+```
+
+The date is the day the section was last written, as year, month, day.
 
 ## The flow section
 
@@ -114,7 +127,7 @@ These details are not fixed by the skills in 0.1.0. A tool must not depend on th
 
 - **Section headings.** The skills name sections in prose ("its design section") and do not give the exact heading text or level.
 - **The idea section.** `idea-level` does not name its section.
-- **Dates.** Each section carries a date, but no format is given. The levels block carries no date, although `levels-status` shows a date per layer and must read it from the sections.
+- **Dates in the skills.** This page fixes the first lines of a section, but the skill texts still say only "and the date".
 - **Pending actions and accepted risks.** `levels-status` lists "waiting on you" items and accepted risks from any section. Their place and form inside a section are not given.
 - **The meaning of `gaps` for `data` and `pitch`.** The two skills do not say what the count holds.
 - **Case of the flow phase.** The example is lowercase. The phase names are written with a capital elsewhere.

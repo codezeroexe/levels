@@ -40,7 +40,7 @@ Use the names exactly as the skill listing shows them (a name may carry a prefix
    - Live data in the interface matches what the backend can push or be polled for under the hosting profile.
 4. Present one combined report: both current levels, both gap lists, the cross-layer gaps, then options. Rank across layers by the backend risk order first (data loss, security, outages, wrong results), then by how much a gap holds the design back.
 5. Flag conflicts between the two targets, for example a design idea the host cannot support, and give the alternative.
-6. Stop and wait for the user's choices. In `audit` MODE, end here.
+6. Stop and wait for the user's choices. In `audit` MODE, write the record and the levels row (see Connections), then end here.
 
 ## Step 3: One merged plan
 
@@ -55,7 +55,7 @@ In `build` MODE, after the user chooses:
 Run the gate once for the whole plan, not once per skill:
 
 1. One table: number, layer, goal, files, data risk, model, parallel or sequential.
-2. One warning line with the real counts: `Delegation: <n> sub-plans on Haiku, <n> on Sonnet (<n> backend, <n> design, <n> cross). Review on Opus.`
+2. One warning line with the real counts: `Delegation: <n> sub-plans on Haiku, <n> on Sonnet (<n> backend, <n> design, <n> cross). Review on Opus.` Each sub-plan starts a new agent with its own start-up cost. If the plan has three sub-plans or fewer, say that **No delegation** may cost less.
 3. Sub-plans with a data risk still need their own explicit yes, as backend-level requires.
 4. Ask with AskUserQuestion using the same four choices as the two skills. Do not start until the user answers.
 

@@ -2,6 +2,7 @@
 name: levels-next
 description: Pick the single most valuable next step across all level skills for this project, explain why, and offer to start it. `levels` is the front door; this skill only recommends. Use when the user runs /levels-next or asks what to do next, where to start, or which level skill to run.
 argument-hint: "[goal or deadline]"
+model: sonnet
 ---
 
 # Levels next

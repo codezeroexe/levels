@@ -26,7 +26,7 @@ This skill works in mockups. It never edits product code. Porting a chosen direc
 
 ## Levels
 
-Each level includes everything in the levels below it.
+Each level includes everything in the levels below it. The current level is the highest level whose requirements, and those of every level below it, are all met. Record a project that does not meet level 1 as level 0. List requirements already met above the current level as ahead.
 
 1. **Directions.** Written direction cards only. No files.
 2. **Sketch.** One first screen per direction, as a static page with real content, all at the same fidelity.
@@ -38,7 +38,7 @@ Each level includes everything in the levels below it.
 
 Planning, reading and review run on Opus only. Building runs on Sonnet, or Haiku where the work is fully specified.
 
-- If this session is not running Opus, do not read, pitch or plan in the main thread. Tell the user, then run those steps through the Agent tool with `model: "opus"`.
+- If this session is not running Opus, say which model is running and ask the user whether to continue on it or stop. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
 - Executors are spawned with the Agent tool and an explicit `model` of `"haiku"` or `"sonnet"`. Never leave the model unset.
 - Opus never builds the mockups. Executors never make design decisions, change a direction or review their own work.
 
@@ -158,7 +158,7 @@ After the user chooses, do not build directly.
 Before spawning any executor:
 
 1. Show a table of the sub-plans: number, direction, goal, files, model, parallel or sequential.
-2. Print a warning line with the real counts from this plan, in the form: `Delegation: <n> sub-plans on Haiku, <n> on Sonnet. Review on Opus.`
+2. Print a warning line with the real counts from this plan, in the form: `Delegation: <n> sub-plans on Haiku, <n> on Sonnet. Review on Opus.` Each sub-plan starts a new agent with its own start-up cost. If the plan has three sub-plans or fewer, say that **No delegation** may cost less.
 3. Ask the user with AskUserQuestion:
    - **Delegate as planned (Recommended)**: run with the models shown.
    - **Haiku only**: downgrade every Sonnet sub-plan. Warn that the first screens are at risk of losing the direction.
