@@ -1,6 +1,7 @@
 ---
 name: design-level
 description: Audit a project's interface against a 5-level design sophistication scale, propose options, then split the chosen work into sub-plans delegated to Haiku or Sonnet while Opus plans and reviews. Use when the user runs /design-level or asks to raise, rate or audit design sophistication.
+summary: Raise the quality of the interface
 argument-hint: "[level 1-5] [audit|build] [a11y]"
 model: opus
 ---
@@ -15,7 +16,7 @@ Parse the arguments:
 - **MODE**: `audit` (score and propose only) or `build` (audit, then execution plan, then delegated build). Default `audit`.
 - **ACCESSIBILITY**: on only if the arguments contain `a11y`. When on, also require WCAG AA contrast, keyboard access, visible focus and reduced-motion support, and audit against them. When off, do not raise these.
 
-State the parsed settings in one line before starting.
+State the parsed settings in one line before starting. If AskUserQuestion is unavailable, ask in plain text and wait for the answer.
 
 You are the design lead on this project. Work to the LEVEL. The levels describe sophistication, not a theme. Choose the visual world that suits this project and its users.
 
@@ -36,6 +37,19 @@ Planning and audit run on Opus only. Execution runs on Haiku, or Sonnet when req
 - If this session is not running Opus, say which model is running and ask the user whether to continue on it or stop. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
 - Executors are spawned with the Agent tool and an explicit `model` of `"haiku"` or `"sonnet"`. Never leave the model unset.
 - Opus never makes the edits. Executors never change scope, make design decisions or review their own work.
+
+## Step 0: Design context
+
+Before the audit, establish who the interface is for and what must be kept.
+
+1. Look first. Read the interface code, styles, tokens, any logo or brand files, and the README. Read `LEVELS.md` if it exists and reuse the user profile, the hosting profile (devices, network) and any blueprint.
+2. Ask the user only what is still open, with AskUserQuestion, in one round:
+   - **Who uses it**: who they are and what they come to do.
+   - **Where it is used**: phone / desktop / both, and which matters most.
+   - **What must stay**: an existing brand, logo, palette or component library that must be kept, or nothing.
+   - **Tone**: two or three words for how it should feel, or "you choose".
+3. If the user does not know an answer, record it as unknown, state the assumption you will use, and flag it as a risk.
+4. Print a short design profile and wait for the user to confirm or correct it.
 
 ## Step 1: Audit (Opus)
 
@@ -76,7 +90,7 @@ Before spawning any executor:
    - **Delegate as planned (Recommended)**: run with the models shown.
    - **Haiku only**: downgrade every Sonnet sub-plan. Name which sub-plans are at risk.
    - **Sonnet for all**: upgrade every sub-plan.
-   - **No delegation**: build in the main session. Warn that this runs every edit on the session's current model.
+   - **No delegation**: build in the main session. Warn that this runs every edit on the session's current model, which is Opus unless the skill said otherwise at the start.
 4. Do not start until the user answers. If the user changes a model for one sub-plan in free text, apply it and show the table again.
 
 ## Step 4: Execute
@@ -84,7 +98,7 @@ Before spawning any executor:
 - Immediately before each spawn, print one line: `Sub-plan 3 → Haiku: <goal>`.
 - Each executor starts with no memory of this conversation. Pass it the whole sub-plan plus the context it needs.
 - Run parallel sub-plans in one message. Run sequential ones in order.
-- If an executor reports a sub-plan unclear or blocked, do not let it guess. Rewrite the sub-plan on Opus, or ask the user.
+- If an executor reports a sub-plan unclear or blocked, do not let it guess. Rewrite the sub-plan on Opus, or ask the user. A rewrite of a blocked sub-plan does not count as the corrective round.
 
 ## Step 5: Review (Opus)
 
@@ -94,7 +108,7 @@ After the sub-plans finish, check every changed screen at desktop and phone widt
 
 This skill is one of the connected level skills (`levels` runs them as one workflow, `levels-status` shows them all, `levels-next` picks the next one to run). Use the names as the skill listing shows them (a name may carry a prefix).
 
-**Shared record.** At the start, read `LEVELS.md` in the project root if it exists and reuse what it already answers: the constraint profile, the hosting profile (devices, network, load) and any blueprint. At the end, create or update its design section with: target and reached level, what was chosen, open gaps, and the date. Keep other skills' sections intact.
+**Shared record.** At the start, read `LEVELS.md` in the project root if it exists and reuse what it already answers: the constraint profile, the hosting profile (devices, network, load) and any blueprint. At the end, create or update its design section with: the design profile, target and reached level, what was chosen, open gaps, and the date. Keep other skills' sections intact.
 
 **Levels block.** Keep this block at the top of `LEVELS.md`, one row per layer, and update only this skill's row: current level, target level, count of open gaps. Tools read it, so keep the format exact.
 

@@ -1,6 +1,7 @@
 ---
 name: pitch-level
 description: Audit and build how a finished project is presented (demo, talk, deck, one-page summary, answers to hard questions) against a 5-level scale, fitted to a named audience and their criteria, using only claims the project can back. Opus shapes the story and reviews, Haiku and Sonnet draft materials. Use when the user runs /pitch-level or asks to prepare a demo, presentation, pitch, submission or showcase.
+summary: Prepare a demo, talk or submission
 argument-hint: "[level 1-5] [audit|build] [format: demo, deck, video, written]"
 model: opus
 ---
@@ -15,7 +16,7 @@ Parse the arguments:
 - **MODE**: `audit` (score and propose only) or `build` (audit, then execution plan, then delegated drafting). Default `audit`.
 - **FORMAT**: any format named in the arguments limits the work to it. Default: whatever the occasion needs.
 
-State the parsed settings in one line before starting.
+State the parsed settings in one line before starting. If AskUserQuestion is unavailable, ask in plain text and wait for the answer.
 
 You are the presentation lead on this project. Work to the LEVEL. The levels describe how well the project's real strengths reach a specific audience, not how polished the slides are. This skill presents what exists. It never changes the product.
 
@@ -104,7 +105,7 @@ After the user chooses a direction, do not draft directly.
 1. Show a table: number, deliverable, model, parallel or sequential.
 2. Print: `Delegation: <n> sub-plans on Haiku, <n> on Sonnet. Review on Opus.` Each sub-plan starts a new agent with its own start-up cost. If the plan has three sub-plans or fewer, say that **No delegation** may cost less.
 3. List every claim the materials will make, each with its source, and ask the user to strike any they do not want made.
-4. Ask with AskUserQuestion: **Delegate as planned (Recommended)** / **Haiku only** (name what is at risk) / **Sonnet for all** / **No delegation** (warn that everything runs on the session's current model).
+4. Ask with AskUserQuestion: **Delegate as planned (Recommended)** / **Haiku only** (name what is at risk) / **Sonnet for all** / **No delegation** (warn that everything runs on the session's current model, which is Opus unless the skill said otherwise at the start).
 5. Do not start until the user answers.
 
 ## Step 4: Execute
@@ -142,7 +143,7 @@ pitch: 2/3 gaps=3
 
 **Handoffs into this skill.** Use the context passed in, skip questions the shared record answers, and report back to the calling skill.
 
-**Rules for every handoff.** Ask the user first with AskUserQuestion, naming the next skill, its mode, and that it starts its own model spend. One hop only. If the target skill is missing, say so and stop.
+**Rules for every handoff.** Ask the user first with AskUserQuestion, and say which skill runs next, in which mode, and that it starts its own model spend. Never hand off silently. One hop only: a skill started by a handoff does not start another one, it reports back. If the target skill is missing, say so and stop.
 
 ## Quality bar
 

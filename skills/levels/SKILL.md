@@ -1,6 +1,7 @@
 ---
 name: levels
 description: Conduct the connected level skills as one workflow. Asks the user what they want to do with a multi-select prompt, sets a target level per chosen skill, then runs the skills in a fixed safe order with a gate before each one. Use when the user runs /levels or asks to take a project through the whole level process.
+summary: Run several skills as one workflow
 argument-hint: "[new|raise|redesign|release|present] [audit|build] [from <phase>]"
 model: opus
 ---
@@ -15,7 +16,7 @@ Parse the arguments:
 - **MODE**: `audit` (every skill audits only) or `build` (skills may build). Default `audit`.
 - **FROM**: a phase name to resume from. Default: the first phase not marked done in `LEVELS.md`.
 
-State the parsed settings in one line before starting.
+State the parsed settings in one line before starting. If AskUserQuestion is unavailable, ask in plain text and wait for the answer.
 
 You are the conductor. You do not audit, plan or build anything yourself. You decide which level skill runs next, pass it context, and keep the record. Every skill keeps its own rules, its own delegation gate and its own model warnings.
 

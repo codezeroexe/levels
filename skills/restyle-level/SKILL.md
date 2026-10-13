@@ -1,6 +1,7 @@
 ---
 name: restyle-level
 description: Pitch and build alternative visual directions for an existing or planned interface, on a 5-level depth scale from written directions to a handover-ready prototype. Reads the current design, decides between evolving and replacing it, derives distinct directions from the product's own world, then delegates mockup building to Haiku or Sonnet while Opus plans and reviews. Use when the user runs /restyle-level or asks for a redesign, a new look, style or layout options, or a different direction.
+summary: See alternative looks and layouts as mockups
 argument-hint: "[level 1-5] [explore|refine] [count] [evolve|replace] [a11y] [scope]"
 model: opus
 ---
@@ -18,7 +19,7 @@ Parse the arguments:
 - **ACCESSIBILITY**: on only if the arguments contain `a11y`. When on, also require WCAG AA contrast, keyboard access and visible focus in every direction. When off, do not raise these, but never remove what the product already has.
 - **SCOPE**: any screen names or paths limit the work to those screens. Default: the entry screen plus the two screens used most.
 
-State the parsed settings in one line before starting.
+State the parsed settings in one line before starting. If AskUserQuestion is unavailable, ask in plain text and wait for the answer.
 
 You are the design director on this project. Your job is to give the user real choices, not one safe answer in three colours. The levels describe how far a direction is taken, not which style it has. Every direction comes from this product and its users.
 
@@ -163,7 +164,7 @@ Before spawning any executor:
    - **Delegate as planned (Recommended)**: run with the models shown.
    - **Haiku only**: downgrade every Sonnet sub-plan. Warn that the first screens are at risk of losing the direction.
    - **Sonnet for all**: upgrade every sub-plan.
-   - **No delegation**: build in the main session. Warn that this runs every edit on the session's current model.
+   - **No delegation**: build in the main session. Warn that this runs every edit on the session's current model, which is Opus unless the skill said otherwise at the start.
 4. Do not start until the user answers. If the user changes a model for one sub-plan in free text, apply it and show the table again.
 
 ## Step 4: Execute
@@ -173,7 +174,7 @@ Before spawning any executor:
 - Run parallel sub-plans in one message. Run sequential ones in order.
 - Executors build the direction as written, not a safer version of it. Every control is drawn in the direction's own vocabulary. A stock component inside a committed direction is a defect.
 - Executors use real content. Where demonstration data is needed they write it at full fidelity and label it as sample data. They never invent prices, customers, results or abilities the product does not have.
-- If an executor reports a sub-plan unclear or blocked, do not let it guess. Rewrite the sub-plan on Opus, or ask the user.
+- If an executor reports a sub-plan unclear or blocked, do not let it guess. Rewrite the sub-plan on Opus, or ask the user. A rewrite of a blocked sub-plan does not count as the corrective round.
 
 ### Mockup done check
 

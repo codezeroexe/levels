@@ -1,6 +1,7 @@
 ---
 name: ship-level
 description: Audit how reliably a project gets from code to a running product against a 5-level release maturity scale (build, configuration, deploy, rollback, monitoring, backups), propose options, then split the chosen work into sub-plans delegated to Haiku or Sonnet while Opus plans and reviews. Use when the user runs /ship-level or asks to prepare, audit or harden a release or deployment.
+summary: Prepare a safe, repeatable release
 argument-hint: "[level 1-5] [audit|build] [scope path]"
 model: opus
 ---
@@ -15,7 +16,7 @@ Parse the arguments:
 - **MODE**: `audit` (score and propose only) or `build` (audit, then execution plan, then delegated build). Default `audit`.
 - **SCOPE**: any path in the arguments limits the audit to that area. Default: the whole project.
 
-State the parsed settings in one line before starting.
+State the parsed settings in one line before starting. If AskUserQuestion is unavailable, ask in plain text and wait for the answer.
 
 You are the release lead on this project. Work to the LEVEL. The levels describe how safely and repeatably the product ships, not which platform it uses. Keep the project's host and tooling unless the user asks to change them.
 
@@ -110,7 +111,7 @@ Before spawning any executor:
    - **Delegate as planned (Recommended)**: run with the models shown.
    - **Haiku only**: downgrade every Sonnet sub-plan. Name which sub-plans are at risk.
    - **Sonnet for all**: upgrade every sub-plan.
-   - **No delegation**: build in the main session. Warn that this runs every edit on the session's current model.
+   - **No delegation**: build in the main session. Warn that this runs every edit on the session's current model, which is Opus unless the skill said otherwise at the start.
 5. Do not start until the user answers. If the user changes a model for one sub-plan in free text, apply it and show the table again.
 
 ## Step 4: Execute
@@ -119,7 +120,7 @@ Before spawning any executor:
 - Each executor starts with no memory of this conversation. Pass it the whole sub-plan plus the relevant part of the release profile.
 - Run parallel sub-plans in one message. Run sequential ones in order.
 - Executors work on files and local rehearsals only. They never deploy, never connect to a live system, never read, print or write real secrets, never change addresses or domain settings, and never create paid resources.
-- If an executor reports a sub-plan unclear or blocked, do not let it guess. Rewrite the sub-plan on Opus, or ask the user.
+- If an executor reports a sub-plan unclear or blocked, do not let it guess. Rewrite the sub-plan on Opus, or ask the user. A rewrite of a blocked sub-plan does not count as the corrective round.
 
 ## Step 5: Review (Opus)
 

@@ -1,6 +1,7 @@
 ---
 name: perf-level
 description: Audit a project's speed and resource use against a 5-level scale, by measuring key tasks on the weakest target device and at expected peak load before changing anything, then propose options and split the chosen work into sub-plans delegated to Haiku or Sonnet while Opus plans and reviews. Use when the user runs /perf-level or asks to measure, audit or improve performance, speed or load handling.
+summary: Measure and improve speed
 argument-hint: "[level 1-5] [audit|build] [scope: task or path]"
 model: opus
 ---
@@ -15,7 +16,7 @@ Parse the arguments:
 - **MODE**: `audit` (measure and propose only) or `build` (audit, then execution plan, then delegated build). Default `audit`.
 - **SCOPE**: any task, screen, route or path in the arguments limits the audit to it. Default: every key task, both interface and server.
 
-State the parsed settings in one line before starting.
+State the parsed settings in one line before starting. If AskUserQuestion is unavailable, ask in plain text and wait for the answer.
 
 You are the performance lead on this project. Work to the LEVEL. The levels describe how well speed is known and kept, not how fast the product is in the abstract. Fast enough is a number agreed with the user. Once a budget is met, stop: further tuning costs clarity for no gain.
 
@@ -119,7 +120,7 @@ Before spawning any executor:
    - **Delegate as planned (Recommended)**: run with the models shown.
    - **Haiku only**: downgrade every Sonnet sub-plan. Name which sub-plans are at risk.
    - **Sonnet for all**: upgrade every sub-plan.
-   - **No delegation**: build in the main session. Warn that this runs every edit on the session's current model.
+   - **No delegation**: build in the main session. Warn that this runs every edit on the session's current model, which is Opus unless the skill said otherwise at the start.
 5. Do not start until the user answers. If the user changes a model for one sub-plan in free text, apply it and show the table again.
 
 ## Step 4: Execute
@@ -128,7 +129,7 @@ Before spawning any executor:
 - Each executor starts with no memory of this conversation. Pass it the whole sub-plan plus the relevant part of the performance profile.
 - Executors follow the Boundaries section. They make the named change only, run the tests, run the given measurement and report the raw numbers. They do not round up, pick the best run or change the measurement to get a better result.
 - After each sub-plan, compare the result to the before number. If the gain is within the spread of the measurement, treat it as no gain.
-- If an executor reports a sub-plan unclear or blocked, do not let it guess. Rewrite the sub-plan on Opus, or ask the user.
+- If an executor reports a sub-plan unclear or blocked, do not let it guess. Rewrite the sub-plan on Opus, or ask the user. A rewrite of a blocked sub-plan does not count as the corrective round.
 
 ## Step 5: Review (Opus)
 

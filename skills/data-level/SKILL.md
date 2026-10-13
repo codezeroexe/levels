@@ -1,6 +1,7 @@
 ---
 name: data-level
 description: Audit how a project defines, protects and evolves its stored data against a 5-level scale (shape, integrity, versioning, migrations, retention), then propose options and split the chosen work into sub-plans delegated to Haiku or Sonnet while Opus plans and reviews. Works on a copy, never on real data. Use when the user runs /data-level or asks to audit or improve a schema, data model, data integrity or migrations.
+summary: Fix stored data shape, integrity and migrations
 argument-hint: "[level 1-5] [audit|build] [compliance] [scope: store or entity]"
 model: opus
 ---
@@ -16,7 +17,7 @@ Parse the arguments:
 - **COMPLIANCE**: on only if the arguments contain `compliance`. When on, also check retention, consent and deletion duties under the regulation the user names. When off, do not raise these.
 - **SCOPE**: any store, entity or path in the arguments limits the audit to it. Default: every place the product keeps data.
 
-State the parsed settings in one line before starting.
+State the parsed settings in one line before starting. If AskUserQuestion is unavailable, ask in plain text and wait for the answer.
 
 You are the data lead on this project. Work to the LEVEL. The levels describe how far the stored data can be trusted and safely changed, not which database is used. Keep the project's stores unless the user asks to change them.
 
@@ -115,7 +116,7 @@ After the user chooses, do not build directly.
 1. Show a table: number, goal, files, live step or none, model, parallel or sequential.
 2. Print: `Delegation: <n> sub-plans on Haiku, <n> on Sonnet. Review on Opus.` Each sub-plan starts a new agent with its own start-up cost. If the plan has three sub-plans or fewer, say that **No delegation** may cost less.
 3. List every live step separately, in order, with its backup and its way back. These need the user's explicit yes, and the user runs them.
-4. Ask with AskUserQuestion: **Delegate as planned (Recommended)** / **Sonnet for all** / **Haiku where allowed** (migrations and repairs stay on Sonnet; name the sub-plans at risk) / **No delegation** (warn that every edit runs on the session's current model).
+4. Ask with AskUserQuestion: **Delegate as planned (Recommended)** / **Sonnet for all** / **Haiku where allowed** (migrations and repairs stay on Sonnet; name the sub-plans at risk) / **No delegation** (warn that every edit runs on the session's current model, which is Opus unless the skill said otherwise at the start).
 5. Do not start until the user answers.
 
 ## Step 4: Execute
@@ -147,7 +148,7 @@ data: 2/3 gaps=6
 
 **Handoffs into this skill.** Use the context passed in, skip questions the shared record answers, and report back to the calling skill.
 
-**Rules for every handoff.** Ask the user first with AskUserQuestion, naming the next skill, its mode, and that it starts its own model spend. One hop only. If the target skill is missing, say so and stop.
+**Rules for every handoff.** Ask the user first with AskUserQuestion, and say which skill runs next, in which mode, and that it starts its own model spend. Never hand off silently. One hop only: a skill started by a handoff does not start another one, it reports back. If the target skill is missing, say so and stop.
 
 ## Quality bar
 

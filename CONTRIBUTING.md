@@ -16,6 +16,12 @@ Use the "Bug in a skill" issue template. Say which skill, the exact command, you
    claude plugin validate . --strict
    ```
 
+   ```bash
+   python3 scripts/validate.py
+   ```
+
+   The second command checks the frontmatter, the required sections, the lines every layer skill shares, the skill names used in handoffs and the levels block examples. The same checks run on every push and pull request.
+
 4. Try the skill. Load the repository as a plugin for one session with `claude --plugin-dir .`, then run the skill in a throwaway project. Say in the pull request what you ran and what you did not run.
 5. Add a line to `CHANGELOG.md`.
 
@@ -40,8 +46,8 @@ Some existing skills differ from this contract in small ways (for example, `rest
 
 1. Open a "New skill proposal" issue first, so the scope can be agreed before you write.
 2. Copy `templates/layer-skill/` to `skills/<name>-level/` and fill it in. Keep the section order.
-3. Choose a row key for the levels block: one lowercase word, not used by another skill. Add it to the table in `docs/levels-md-format.md`.
-4. Add the skill to the tables in `README.md` and `skills/levels-help/SKILL.md`, to the phase table and the prompt in `skills/levels/SKILL.md`, and to the ordering rules in `skills/levels-next/SKILL.md`.
+3. Choose a row key for the levels block: one lowercase word, not used by another skill. Add it to the table in `docs/levels-md-format.md` and to the row pattern in `scripts/validate.py`.
+4. Give the skill a `summary` line in its frontmatter, add its name to `ORDER` in `scripts/common.py`, and run `python3 scripts/skills-table.py`. This writes the tables in `README.md` and `skills/levels-help/SKILL.md`; do not edit them by hand. Add the skill to the phase table and the prompt in `skills/levels/SKILL.md`, and to the ordering rules in `skills/levels-next/SKILL.md`.
 5. Every skill named in a handoff must exist in `skills/`.
 
 ## Writing style

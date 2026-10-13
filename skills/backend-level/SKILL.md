@@ -1,6 +1,7 @@
 ---
 name: backend-level
 description: Audit a project's backend against a 5-level engineering maturity scale, with a hosting profile and a full edge case walk, propose options, then split the chosen work into sub-plans delegated to Haiku or Sonnet while Opus plans and reviews. Use when the user runs /backend-level or asks to rate, audit or harden a backend.
+summary: Harden the server, logic and edge cases
 argument-hint: "[level 1-5] [audit|build] [compliance] [scope path]"
 model: opus
 ---
@@ -16,7 +17,7 @@ Parse the arguments:
 - **COMPLIANCE**: on only if the arguments contain `compliance`. When on, also audit data retention, personal-data handling, audit trails and any named regulation. When off, do not raise these.
 - **SCOPE**: any path or route in the arguments limits the audit to that area. Default: the whole backend.
 
-State the parsed settings in one line before starting.
+State the parsed settings in one line before starting. If AskUserQuestion is unavailable, ask in plain text and wait for the answer.
 
 You are the backend lead on this project. Work to the LEVEL. The levels describe maturity, not a stack. Keep the project's language, framework and datastore unless the user asks to change them.
 
@@ -138,7 +139,7 @@ Before spawning any executor:
    - **Delegate as planned (Recommended)**: run with the models shown.
    - **Haiku only**: downgrade every Sonnet sub-plan. Name which sub-plans are at risk.
    - **Sonnet for all**: upgrade every sub-plan.
-   - **No delegation**: build in the main session. Warn that this runs every edit on the session's current model.
+   - **No delegation**: build in the main session. Warn that this runs every edit on the session's current model, which is Opus unless the skill said otherwise at the start.
 5. Do not start until the user answers. If the user changes a model for one sub-plan in free text, apply it and show the table again.
 
 ## Step 4: Execute
@@ -147,7 +148,7 @@ Before spawning any executor:
 - Each executor starts with no memory of this conversation. Pass it the whole sub-plan plus the context it needs, including the relevant part of the hosting profile.
 - Run parallel sub-plans in one message. Run sequential ones in order.
 - Executors never touch production data, real secrets or deployed systems. They never delete stored data.
-- If an executor reports a sub-plan unclear or blocked, do not let it guess. Rewrite the sub-plan on Opus, or ask the user.
+- If an executor reports a sub-plan unclear or blocked, do not let it guess. Rewrite the sub-plan on Opus, or ask the user. A rewrite of a blocked sub-plan does not count as the corrective round.
 
 ## Step 5: Review (Opus)
 

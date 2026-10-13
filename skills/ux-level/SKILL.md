@@ -1,6 +1,7 @@
 ---
 name: ux-level
 description: Audit how easily real users complete their tasks against a 5-level usability scale, by walking each key task as a first-time user and checking flow, feedback, error recovery and wording, then propose options and split the chosen fixes into sub-plans delegated to Haiku or Sonnet while Opus plans and reviews. Covers behaviour and flow, not visual style. Use when the user runs /ux-level or asks to audit or improve usability, flows, onboarding or interface wording.
+summary: Check whether users can finish their tasks
 argument-hint: "[level 1-5] [audit|build] [scope: task or screen]"
 model: opus
 ---
@@ -15,7 +16,7 @@ Parse the arguments:
 - **MODE**: `audit` (score and propose only) or `build` (audit, then execution plan, then delegated build). Default `audit`.
 - **SCOPE**: any task, screen or path in the arguments limits the audit to it. Default: every key task.
 
-State the parsed settings in one line before starting.
+State the parsed settings in one line before starting. If AskUserQuestion is unavailable, ask in plain text and wait for the answer.
 
 You are the experience lead on this project. Work to the LEVEL. The levels describe how easily the intended users get their tasks done, not how the product looks. This skill changes flow, behaviour, feedback and wording. It does not restyle: colour, type, motion and visual identity belong to `design-level`. Keep the product's content and rules unless the user asks to change them.
 
@@ -131,7 +132,7 @@ Before spawning any executor:
    - **Delegate as planned (Recommended)**: run with the models shown.
    - **Haiku only**: downgrade every Sonnet sub-plan. Name which sub-plans are at risk.
    - **Sonnet for all**: upgrade every sub-plan.
-   - **No delegation**: build in the main session. Warn that this runs every edit on the session's current model.
+   - **No delegation**: build in the main session. Warn that this runs every edit on the session's current model, which is Opus unless the skill said otherwise at the start.
 5. Do not start until the user answers. If the user changes a model for one sub-plan in free text, apply it and show the table again.
 
 ## Step 4: Execute
@@ -140,7 +141,7 @@ Before spawning any executor:
 - Each executor starts with no memory of this conversation. Pass it the whole sub-plan plus the user profile.
 - Run parallel sub-plans in one message. Run sequential ones in order.
 - Executors use the wording given, word for word. They do not restyle, do not change rules or content, and do not remove a step the sub-plan did not name.
-- If an executor reports a sub-plan unclear or blocked, do not let it guess. Rewrite the sub-plan on Opus, or ask the user.
+- If an executor reports a sub-plan unclear or blocked, do not let it guess. Rewrite the sub-plan on Opus, or ask the user. A rewrite of a blocked sub-plan does not count as the corrective round.
 
 ## Step 5: Review (Opus)
 

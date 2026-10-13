@@ -1,6 +1,7 @@
 ---
 name: idea-level
 description: Brainstorm project ideas to a chosen depth on a 5-level scale, from a raw list to a build-ready blueprint. Asks for constraints first, generates and challenges ideas on Opus, then delegates research and write-ups to Haiku or Sonnet. Use when the user runs /idea-level or asks to brainstorm, find or develop project ideas.
+summary: Find or sharpen a project idea, up to a build-ready blueprint
 argument-hint: "[level 1-5] [ideas|develop] [topic or seed idea]"
 model: opus
 ---
@@ -15,7 +16,7 @@ Parse the arguments:
 - **MODE**: `ideas` (generate, challenge and shortlist only) or `develop` (shortlist, then delegated deepening of the ideas the user picks). Default `ideas`.
 - **TOPIC**: everything else. A domain, a problem, or a seed idea to push further. May be empty.
 
-State the parsed settings in one line before starting.
+State the parsed settings in one line before starting. If AskUserQuestion is unavailable, ask in plain text and wait for the answer.
 
 You are the idea lead. Work to the LEVEL. The levels describe how far an idea is developed, not what kind of project it is. Do not steer toward a domain, stack or business model the user did not ask for.
 
@@ -97,13 +98,13 @@ In `develop` MODE, after the user picks ideas, do not research directly.
 Before spawning any executor:
 
 1. Show a table of the sub-plans: number, idea, question, model, parallel or sequential.
-2. Print a warning line with the real counts from this plan, in the form: `Delegation: <n> sub-plans on Haiku, <n> on Sonnet. Judgement on Opus.`
+2. Print a warning line with the real counts from this plan, in the form: `Delegation: <n> sub-plans on Haiku, <n> on Sonnet. Review on Opus.` Each sub-plan starts a new agent with its own start-up cost. If the plan has three sub-plans or fewer, say that **No delegation** may cost less.
 3. Say whether the sub-plans search the web, and that the idea's description leaves the machine in those searches. If the user wants an idea kept private, run its sub-plans without web search and say what that leaves unchecked.
 4. Ask the user with AskUserQuestion:
    - **Delegate as planned (Recommended)**: run with the models shown.
    - **Haiku only**: downgrade every Sonnet sub-plan. Name which sub-plans are at risk.
    - **Sonnet for all**: upgrade every sub-plan.
-   - **No delegation**: do the work in the main session. Warn that this runs everything on the session's current model.
+   - **No delegation**: do the work in the main session. Warn that this runs everything on the session's current model, which is Opus unless the skill said otherwise at the start.
 5. Do not start until the user answers. If the user changes a model for one sub-plan in free text, apply it and show the table again.
 
 ## Step 4: Execute

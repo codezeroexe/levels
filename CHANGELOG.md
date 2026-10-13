@@ -26,6 +26,12 @@ First packaged version.
 - `test-level` may write test configuration and the test command, and offers a handoff when the product cannot be tested as written.
 - `levels-status` reads the date from the section and compares it with the last commit.
 
+- `design-level` has a Step 0 that asks for a design profile.
+- Each skill has a `summary` line in its frontmatter. `scripts/skills-table.py` writes the skill tables from it.
+- `scripts/validate.py` and a GitHub Actions workflow check every `SKILL.md`.
+- `data-level`, `pitch-level` and `idea-level` use the shared handoff rule and delegation line word for word.
+- `docs/example-LEVELS.md`, a filled-in record from the test run.
+
 ### Known limits
 
 - Six of the eighteen skills have been run, once each. The `levels` conductor and handoffs have not.

@@ -55,6 +55,7 @@ Layer skills start in `audit` mode unless you say `build`. An audit rates and pr
 
 ## Skills
 
+<!-- skills-table:start -->
 | Skill | Use it to |
 |---|---|
 | `levels` | Run several skills as one workflow |
@@ -75,6 +76,7 @@ Layer skills start in `audit` mode unless you say `build`. An audit rates and pr
 | `docs-level` | Make documentation accurate and usable |
 | `ship-level` | Prepare a safe, repeatable release |
 | `pitch-level` | Prepare a demo, talk or submission |
+<!-- skills-table:end -->
 
 Two skills use different mode names: `idea-level` takes `ideas` or `develop`, and `restyle-level` takes `explore` or `refine`. Run `/levels-help <skill>` for the arguments of one skill.
 
@@ -130,7 +132,7 @@ backend: 2/3 gaps=12
 -->
 ```
 
-Below the block, each skill keeps a section with its profile, findings and date, so later skills do not ask the same questions again. The format, including the parts that are not yet fixed, is described in [docs/levels-md-format.md](docs/levels-md-format.md).
+Below the block, each skill keeps a section with its profile, findings and date, so later skills do not ask the same questions again. The format, including the parts that are not yet fixed, is described in [docs/levels-md-format.md](docs/levels-md-format.md). A filled-in example is in [docs/example-LEVELS.md](docs/example-LEVELS.md).
 
 ## Status of testing
 
@@ -139,6 +141,7 @@ Version 0.1.0.
 Checked:
 
 - `claude plugin validate . --strict` passes for the marketplace manifest, the plugin manifest and the `skills/` folder (Claude Code 2.1.296).
+- `python3 scripts/validate.py` passes.
 - The `model` setting in the frontmatter changes the session model as described above.
 
 Not checked:

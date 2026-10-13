@@ -1,6 +1,7 @@
 ---
 name: security-level
 description: Audit a project's security against a 5-level scale, starting from a threat model of what is valuable and who would attack it, then propose options and split the chosen fixes into sub-plans delegated to Haiku or Sonnet while Opus plans and reviews. Defensive work on the user's own project only. Use when the user runs /security-level or asks to audit, review or harden security.
+summary: Find and close security weaknesses
 argument-hint: "[level 1-5] [audit|build] [compliance] [scope path]"
 model: opus
 ---
@@ -16,7 +17,7 @@ Parse the arguments:
 - **COMPLIANCE**: on only if the arguments contain `compliance`. When on, also check the regulation or standard the user names. When off, do not raise these.
 - **SCOPE**: any path or route in the arguments limits the audit to that area. Default: the whole project.
 
-State the parsed settings in one line before starting.
+State the parsed settings in one line before starting. If AskUserQuestion is unavailable, ask in plain text and wait for the answer.
 
 You are the security lead on this project. Work to the LEVEL. The levels describe how well the product resists the threats it really faces, not a list of tools. Keep the project's stack unless the user asks to change it.
 
@@ -130,7 +131,7 @@ Before spawning any executor:
    - **Delegate as planned (Recommended)**: run with the models shown.
    - **Sonnet for all**: upgrade every sub-plan.
    - **Haiku where allowed**: keep sign-in, access, session and cryptographic sub-plans on Sonnet, downgrade the rest. Name which sub-plans are at risk.
-   - **No delegation**: build in the main session. Warn that this runs every edit on the session's current model.
+   - **No delegation**: build in the main session. Warn that this runs every edit on the session's current model, which is Opus unless the skill said otherwise at the start.
 5. Do not start until the user answers. If the user changes a model for one sub-plan in free text, apply it and show the table again, unless it would put sign-in, access, session or cryptographic work on Haiku: refuse that one and say why.
 
 ## Step 4: Execute
@@ -139,7 +140,7 @@ Before spawning any executor:
 - Each executor starts with no memory of this conversation. Pass it the whole sub-plan plus the relevant part of the threat profile.
 - Run parallel sub-plans in one message. Run sequential ones in order.
 - Executors follow the Boundaries section. They never touch a live system, never print or store a secret value, never disable a control to make a test pass, and never add a dependency the sub-plan did not name.
-- If an executor reports a sub-plan unclear or blocked, do not let it guess. Rewrite the sub-plan on Opus, or ask the user.
+- If an executor reports a sub-plan unclear or blocked, do not let it guess. Rewrite the sub-plan on Opus, or ask the user. A rewrite of a blocked sub-plan does not count as the corrective round.
 
 ## Step 5: Review (Opus)
 

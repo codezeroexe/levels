@@ -1,6 +1,7 @@
 ---
 name: fullstack-level
 description: Run the design-level and backend-level skills together on one project, with one combined audit, one merged execution plan and one delegation gate. Use when the user runs /fullstack-level or asks to audit or raise both the interface and the backend.
+summary: Raise interface and backend together
 argument-hint: "[design 1-5] [backend 1-5] [audit|build] [a11y] [compliance] [scope path]"
 model: opus
 ---
@@ -16,7 +17,7 @@ Parse the arguments:
 - **MODE**: `audit` or `build`. Default `audit`.
 - **Flags**: `a11y` goes to design-level, `compliance` and any scope path go to backend-level.
 
-State the parsed settings in one line before starting.
+State the parsed settings in one line before starting. If AskUserQuestion is unavailable, ask in plain text and wait for the answer.
 
 This skill only coordinates. The rules for levels, edge cases, hosting, models, sub-plans and review live in the two skills. Do not restate or weaken them here. Where this skill and one of them differ, this skill wins only on ordering and on merging.
 

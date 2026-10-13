@@ -1,6 +1,7 @@
 ---
 name: levels-status
 description: Show one dashboard of every layer's current and target level, open gaps and pending actions, read from the project's LEVELS.md. Read-only and cheap. Use when the user runs /levels-status or asks where the project stands across the level skills.
+summary: See every level and open gap in one table
 argument-hint: "[layer]"
 model: haiku
 ---

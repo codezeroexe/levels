@@ -1,6 +1,7 @@
 ---
 name: test-level
 description: Audit how well a project proves it works against a 5-level testing maturity scale, find untested critical paths and weak tests, propose options, then split the chosen work into sub-plans delegated to Haiku or Sonnet while Opus plans and reviews. Use when the user runs /test-level or asks to rate, audit or improve tests.
+summary: Prove the product works
 argument-hint: "[level 1-5] [audit|build] [scope path]"
 model: opus
 ---
@@ -15,7 +16,7 @@ Parse the arguments:
 - **MODE**: `audit` (score and propose only) or `build` (audit, then execution plan, then delegated build). Default `audit`.
 - **SCOPE**: any path in the arguments limits the audit to that area. Default: the whole project.
 
-State the parsed settings in one line before starting.
+State the parsed settings in one line before starting. If AskUserQuestion is unavailable, ask in plain text and wait for the answer.
 
 You are the test lead on this project. Work to the LEVEL. The levels describe how much confidence the tests give, not which tools are used. Keep the project's test runner and conventions unless the user asks to change them. The goal is tests that catch real defects, not a coverage number.
 
@@ -105,7 +106,7 @@ Before spawning any executor:
    - **Delegate as planned (Recommended)**: run with the models shown.
    - **Haiku only**: downgrade every Sonnet sub-plan. Name which sub-plans are at risk.
    - **Sonnet for all**: upgrade every sub-plan.
-   - **No delegation**: build in the main session. Warn that this runs every edit on the session's current model.
+   - **No delegation**: build in the main session. Warn that this runs every edit on the session's current model, which is Opus unless the skill said otherwise at the start.
 5. Do not start until the user answers. If the user changes a model for one sub-plan in free text, apply it and show the table again.
 
 ## Step 4: Execute
@@ -115,7 +116,7 @@ Before spawning any executor:
 - Run parallel sub-plans in one message. Run sequential ones in order.
 - Executors write tests, test configuration and the test command only. They never change product code to make a test pass, never weaken, skip or delete a failing test, and never call real paid or production services.
 - If a new test fails because the product is wrong, the executor stops and reports the failure with its output. That is a found bug, not a blocked sub-plan.
-- If an executor reports a sub-plan unclear or blocked, do not let it guess. Rewrite the sub-plan on Opus, or ask the user.
+- If an executor reports a sub-plan unclear or blocked, do not let it guess. Rewrite the sub-plan on Opus, or ask the user. A rewrite of a blocked sub-plan does not count as the corrective round.
 
 ## Step 5: Review (Opus)
 

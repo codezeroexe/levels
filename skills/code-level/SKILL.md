@@ -1,6 +1,7 @@
 ---
 name: code-level
 description: Audit a codebase's maintainability against a 5-level scale (structure, duplication, dependencies, consistency, how hard a typical change is), then propose options and split the chosen refactoring into sub-plans delegated to Haiku or Sonnet while Opus plans and reviews. Changes structure only, never behaviour. Use when the user runs /code-level or asks to audit code quality, clean up, refactor or reduce technical debt.
+summary: Clean up structure without changing behaviour
 argument-hint: "[level 1-5] [audit|build] [scope path]"
 model: opus
 ---
@@ -15,7 +16,7 @@ Parse the arguments:
 - **MODE**: `audit` (score and propose only) or `build` (audit, then execution plan, then delegated refactoring). Default `audit`.
 - **SCOPE**: any path in the arguments limits the audit to that area. Default: the whole codebase.
 
-State the parsed settings in one line before starting.
+State the parsed settings in one line before starting. If AskUserQuestion is unavailable, ask in plain text and wait for the answer.
 
 You are the code lead on this project. Work to the LEVEL. The levels describe how easy the code is to understand and change, not which patterns it uses. Keep the project's language, framework and existing conventions unless the user asks to change them.
 
@@ -166,7 +167,7 @@ Before spawning any executor:
    - **Delegate as planned (Recommended)**: run with the models shown.
    - **Haiku only**: downgrade every Sonnet sub-plan. Name which sub-plans are at risk.
    - **Sonnet for all**: upgrade every sub-plan.
-   - **No delegation**: build in the main session. Warn that this runs every edit on the session's current model.
+   - **No delegation**: build in the main session. Warn that this runs every edit on the session's current model, which is Opus unless the skill said otherwise at the start.
 6. Do not start until the user answers. If the user changes a model for one sub-plan in free text, apply it and show the table again.
 
 ## Step 4: Execute
@@ -178,7 +179,7 @@ Before spawning any executor:
 - Executors add no abstraction, option, parameter or helper the sub-plan did not name, and no code "for later".
 - Where a sub-plan names a shortcut, the executor writes the shortcut comment exactly as given.
 - If the tests fail after a step, the executor stops and reports. The step is undone, not patched forward.
-- If an executor reports a sub-plan unclear or blocked, do not let it guess. Rewrite the sub-plan on Opus, or ask the user.
+- If an executor reports a sub-plan unclear or blocked, do not let it guess. Rewrite the sub-plan on Opus, or ask the user. A rewrite of a blocked sub-plan does not count as the corrective round.
 
 ## Step 5: Review (Opus)
 

@@ -1,6 +1,7 @@
 ---
 name: levels-next
 description: Pick the single most valuable next step across all level skills for this project, explain why, and offer to start it. `levels` is the front door; this skill only recommends. Use when the user runs /levels-next or asks what to do next, where to start, or which level skill to run.
+summary: Get the single best next step
 argument-hint: "[goal or deadline]"
 model: sonnet
 ---
@@ -55,7 +56,7 @@ Print:
 - **What it will cost**: whether it starts an Opus audit, and whether it will ask questions first.
 - **After that**: the next two steps in order, one line each.
 
-Then ask with AskUserQuestion: **Start it (Recommended)** / the second candidate / the third candidate / **Not now**.
+Then ask with AskUserQuestion: **Start it (Recommended)** / the second and third candidates, if there are any / **Not now**.
 
 On a yes, invoke the chosen skill with the Skill tool, passing the goal and the relevant profiles so it does not ask again. One hop: the skill started here reports back and does not start another.
 

@@ -1,6 +1,7 @@
 ---
 name: docs-level
 description: Audit a project's documentation against a 5-level scale, checking that it is accurate against the code and usable by the people who read it, then propose options and split the chosen writing into sub-plans delegated to Haiku or Sonnet while Opus plans and reviews. Use when the user runs /docs-level or asks to audit, write or improve documentation.
+summary: Make documentation accurate and usable
 argument-hint: "[level 1-5] [audit|build] [scope path]"
 model: opus
 ---
@@ -15,7 +16,7 @@ Parse the arguments:
 - **MODE**: `audit` (score and propose only) or `build` (audit, then execution plan, then delegated writing). Default `audit`.
 - **SCOPE**: any path in the arguments limits the audit to that area or document. Default: the whole project.
 
-State the parsed settings in one line before starting.
+State the parsed settings in one line before starting. If AskUserQuestion is unavailable, ask in plain text and wait for the answer.
 
 You are the documentation lead on this project. Work to the LEVEL. The levels describe how well the documentation serves its readers, not how much of it there is. Keep the project's existing format, location and tone unless the user asks to change them. Shorter and correct beats longer and vague.
 
@@ -110,7 +111,7 @@ Before spawning any executor:
    - **Delegate as planned (Recommended)**: run with the models shown.
    - **Haiku only**: downgrade every Sonnet sub-plan. Name which sub-plans are at risk.
    - **Sonnet for all**: upgrade every sub-plan.
-   - **No delegation**: write in the main session. Warn that this runs every edit on the session's current model.
+   - **No delegation**: write in the main session. Warn that this runs every edit on the session's current model, which is Opus unless the skill said otherwise at the start.
 5. Do not start until the user answers. If the user changes a model for one sub-plan in free text, apply it and show the table again.
 
 ## Step 4: Execute
@@ -120,7 +121,7 @@ Before spawning any executor:
 - Run parallel sub-plans in one message. Run sequential ones in order.
 - Executors write only what the sources show. They never invent a command, option, feature or behaviour, never describe planned work as existing, and never change product code. A fact they cannot confirm is reported back as a question, not written as a guess.
 - Executors write plainly: the reader's task first, steps in the order they are done, one term per thing, no selling and no filler.
-- If an executor reports a sub-plan unclear or blocked, do not let it guess. Rewrite the sub-plan on Opus, or ask the user.
+- If an executor reports a sub-plan unclear or blocked, do not let it guess. Rewrite the sub-plan on Opus, or ask the user. A rewrite of a blocked sub-plan does not count as the corrective round.
 
 ## Step 5: Review (Opus)
 
