@@ -162,7 +162,7 @@ To contribute, read [CONTRIBUTING.md](CONTRIBUTING.md).
 
 The simplification ladder in `code-level` is adapted from the [ponytail](https://github.com/DietrichGebert/ponytail) plugin by Dietrich Gebert, which is MIT licensed.
 
-`restyle-level` borrows from the [impeccable](https://github.com/pbakaus/impeccable) project by Paul Bakaus, which is licensed under Apache 2.0. A copy of that licence is in [third-party/impeccable-LICENSE](third-party/impeccable-LICENSE).
+`restyle-level` borrows from the [impeccable](https://github.com/pbakaus/impeccable) project by Paul Bakaus, which is licensed under Apache 2.0. Copies of its licence and notice file are in [third-party/](third-party/).
 
 ## Licence
 
