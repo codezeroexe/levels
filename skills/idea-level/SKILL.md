@@ -140,7 +140,7 @@ idea: 3/4 gaps=5
 
 **Handoffs from this skill.**
 
-- After a level 5 blueprint the user intends to build: offer `fullstack-level` in `build` mode. Pass the blueprint and the constraint profile. It takes its new-project path, so there is no audit of existing code.
+- After a level 5 blueprint the user intends to build: write the blueprint and the constraint profile to the shared record, then say that `levels new build` plans the first version from it, and give the command. Do not start it from here. `backend-level` and `design-level` plan from the blueprint when there is no code yet, so there is no audit of existing code.
 - If the idea is only an interface or only a service: offer `design-level` or `backend-level` alone instead.
 
 **Handoffs into this skill.** When another skill calls this one with a seed (for example a product with no clear concept), treat the seed as the TOPIC, skip the Step 0 questions the shared record answers, and return the result to the calling skill instead of offering a further handoff.

@@ -22,7 +22,7 @@ Treat the arguments as the user's goal or deadline, if given. This skill recomme
 
 If there is no project yet, recommend `idea-level`.
 
-If there is a project but no record, recommend the starting point by what exists: `fullstack-level` in `audit` mode for a product with an interface and a server, `design-level` or `backend-level` for one layer alone, `code-level` first for an inherited codebase the user does not yet understand.
+If there is a project but no record, recommend the starting point by what exists: `backend-level` in `audit` mode for a product with an interface and a server (with `design-level` as the step after it), `design-level` or `backend-level` for one layer alone, `code-level` first for an inherited codebase the user does not yet understand.
 
 Otherwise rank candidates by this order and take the first that applies:
 

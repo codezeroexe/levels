@@ -55,8 +55,8 @@ As a regular expression:
 | `idea` | `idea-level` | open gaps |
 | `ux` | `ux-level` | open findings |
 | `restyle` | `restyle-level` | open decisions. `<current>` is the level reached |
-| `design` | `design-level`, `fullstack-level` | open gaps |
-| `backend` | `backend-level`, `fullstack-level` | open gaps |
+| `design` | `design-level` | open gaps |
+| `backend` | `backend-level` | open gaps |
 | `data` | `data-level` | not stated by the skill |
 | `test` | `test-level` | open gaps |
 | `security` | `security-level` | open findings |
@@ -65,8 +65,6 @@ As a regular expression:
 | `docs` | `docs-level` | open gaps |
 | `ship` | `ship-level` | open gaps |
 | `pitch` | `pitch-level` | not stated by the skill |
-
-`fullstack-level` has no row of its own. It updates the `design` and `backend` rows.
 
 ### The flow row
 
@@ -87,7 +85,6 @@ Each skill creates or updates one section. The content below is what each `SKILL
 | `restyle-level` | restyle | profile, reading of the current design, every direction shown with its status and reason, contract of the chosen direction, level reached, date |
 | `design-level` | design | target and reached level, what was chosen, open gaps, date |
 | `backend-level` | backend | hosting profile, target and reached level, edge case counts, list of edge cases not handled, open gaps, date |
-| `fullstack-level` | design and backend | both sections above, plus the cross-layer result and date |
 | `data-level` | data | data profile, target and reached level, integrity counts, pending live steps, open findings, date. No real data values |
 | `test-level` | test | test profile, target and reached level, critical behaviours tested and not tested, bugs found, date |
 | `security-level` | security | threat profile, target and reached level, open findings by severity, accepted risks with reasons, date. No secret and no working attack |
@@ -113,7 +110,7 @@ The date is the day the section was last written, as year, month, day.
 
 ## The flow section
 
-Written by `levels`: the selection, the mode, the level plan, each skill with its status (done, skipped, queued, stopped) and date, and the queue of skills waiting to run.
+Written by `levels`: the selection, the mode, the level plan, each skill with its status (done, skipped, queued, stopped) and date, the result of the cross-layer check, and the queue of skills waiting to run.
 
 ## What must never be written
 

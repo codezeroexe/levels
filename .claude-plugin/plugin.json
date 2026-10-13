@@ -1,7 +1,7 @@
 {
   "name": "levels",
   "version": "0.1.0",
-  "description": "Eighteen skills that rate parts of a project on a 1 to 5 scale, propose options, and delegate the chosen work to cheaper models behind a confirmation gate.",
+  "description": "Seventeen skills that rate parts of a project on a 1 to 5 scale, propose options, and delegate the chosen work to cheaper models behind a confirmation gate.",
   "author": {
     "name": "codezeroexe",
     "url": "https://github.com/codezeroexe"

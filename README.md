@@ -1,6 +1,6 @@
 # Levels
 
-Levels is a set of eighteen skills for Claude Code. Each layer skill rates one part of a project (interface, backend, tests, security and so on) on a scale from 1 to 5, shows what is missing for the level you choose, and proposes options. If you ask it to build, it splits the work into small sub-plans and hands them to cheaper models, after showing you the plan and asking first.
+Levels is a set of seventeen skills for Claude Code. Each layer skill rates one part of a project (interface, backend, tests, security and so on) on a scale from 1 to 5, shows what is missing for the level you choose, and proposes options. If you ask it to build, it splits the work into small sub-plans and hands them to cheaper models, after showing you the plan and asking first.
 
 **Status: new and untested.** See [Status of testing](#status-of-testing) before you rely on any of this.
 
@@ -30,7 +30,7 @@ git clone https://github.com/codezeroexe/levels.git
 cp -R levels/skills/* ~/.claude/skills/
 ```
 
-Skills installed this way have no prefix: `/levels`, `/design-level`. To update, pull and copy again. The copy replaces the eighteen folders and leaves your other skills alone.
+Skills installed this way have no prefix: `/levels`, `/design-level`. To update, pull and copy again. The copy replaces the seventeen folders and leaves your other skills alone.
 
 The rest of this page writes commands without the prefix. Add `levels:` if you installed the plugin.
 
@@ -67,7 +67,6 @@ Layer skills start in `audit` mode unless you say `build`. An audit rates and pr
 | `restyle-level` | See alternative looks and layouts as mockups |
 | `design-level` | Raise the quality of the interface |
 | `backend-level` | Harden the server, logic and edge cases |
-| `fullstack-level` | Raise interface and backend together |
 | `data-level` | Fix stored data shape, integrity and migrations |
 | `test-level` | Prove the product works |
 | `security-level` | Find and close security weaknesses |
@@ -94,7 +93,7 @@ A layer skill follows these steps:
 
 Level 5 is not the goal. The skills are written to tell you when a target is too high for the product.
 
-Accessibility requirements (WCAG AA contrast, keyboard access, visible focus) are off by default. Pass `a11y` to `design-level`, `restyle-level` or `fullstack-level` to turn them on.
+Accessibility requirements (WCAG AA contrast, keyboard access, visible focus) are off by default. Pass `a11y` to `design-level` or `restyle-level` to turn them on.
 
 ## Models and cost
 
@@ -147,7 +146,7 @@ Checked:
 Not checked:
 
 - Only `levels-help`, `levels-status`, `levels-next`, `design-level`, `backend-level` and `test-level` have been run, once each, on one small sample project. `test-level` is the only skill run in `build` mode. The person testing answered the skills' questions in place of a user.
-- The other twelve skills, including the `levels` conductor, have not been run.
+- The other eleven skills, including the `levels` conductor and its cross-layer check, have not been run.
 - The path for sessions that cannot use Opus has not been run.
 - Installing through the marketplace has not been tried from the published repository.
 - Handoffs between skills, and the conductor suppressing handoffs in the skills it calls, have not been observed in a real run.

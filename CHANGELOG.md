@@ -8,7 +8,7 @@ First packaged version.
 
 ### Added
 
-- Eighteen skills under `skills/`: `levels`, `levels-status`, `levels-next`, `levels-help`, `idea-level`, `ux-level`, `restyle-level`, `design-level`, `backend-level`, `fullstack-level`, `data-level`, `test-level`, `security-level`, `perf-level`, `code-level`, `docs-level`, `ship-level`, `pitch-level`.
+- Seventeen skills under `skills/`: `levels`, `levels-status`, `levels-next`, `levels-help`, `idea-level`, `ux-level`, `restyle-level`, `design-level`, `backend-level`, `data-level`, `test-level`, `security-level`, `perf-level`, `code-level`, `docs-level`, `ship-level`, `pitch-level`.
 - Plugin manifest and marketplace manifest under `.claude-plugin/`.
 - `README.md`, `CONTRIBUTING.md`, `LICENSE` (MIT).
 - `docs/levels-md-format.md`, describing the `LEVELS.md` record.
@@ -32,7 +32,11 @@ First packaged version.
 - `data-level`, `pitch-level` and `idea-level` use the shared handoff rule and delegation line word for word.
 - `docs/example-LEVELS.md`, a filled-in record from the test run.
 
+### Removed
+
+- `fullstack-level`. `levels` runs `backend-level` and `design-level` in order and now carries the cross-layer check. `idea-level`, `design-level`, `backend-level`, `restyle-level` and `levels-next` point to `levels` or to the single layer skills instead.
+
 ### Known limits
 
-- Six of the eighteen skills have been run, once each. The `levels` conductor and handoffs have not.
+- Six of the seventeen skills have been run, once each. The `levels` conductor and handoffs have not.
 - Parts of the `LEVELS.md` format are not yet defined. See the format page.

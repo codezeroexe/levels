@@ -8,7 +8,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 ORDER = [
     "levels", "levels-status", "levels-next", "levels-help",
     "idea-level", "ux-level", "restyle-level", "design-level", "backend-level",
-    "fullstack-level", "data-level", "test-level", "security-level", "perf-level",
+    "data-level", "test-level", "security-level", "perf-level",
     "code-level", "docs-level", "ship-level", "pitch-level",
 ]
 

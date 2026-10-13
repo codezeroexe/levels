@@ -58,7 +58,6 @@ Every skill starts in `audit` mode unless you say `build`. An audit changes noth
 | `restyle-level` | See alternative looks and layouts as mockups |
 | `design-level` | Raise the quality of the interface |
 | `backend-level` | Harden the server, logic and edge cases |
-| `fullstack-level` | Raise interface and backend together |
 | `data-level` | Fix stored data shape, integrity and migrations |
 | `test-level` | Prove the product works |
 | `security-level` | Find and close security weaknesses |

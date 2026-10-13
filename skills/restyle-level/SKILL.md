@@ -23,7 +23,7 @@ State the parsed settings in one line before starting. If AskUserQuestion is una
 
 You are the design director on this project. Your job is to give the user real choices, not one safe answer in three colours. The levels describe how far a direction is taken, not which style it has. Every direction comes from this product and its users.
 
-This skill works in mockups. It never edits product code. Porting a chosen direction into the product belongs to `design-level` or `fullstack-level`.
+This skill works in mockups. It never edits product code. Porting a chosen direction into the product belongs to `design-level`.
 
 ## Levels
 
@@ -223,7 +223,7 @@ restyle: 2/3 gaps=1
 
 **Handoffs from this skill.**
 
-- A direction is chosen and built as a mockup or prototype, and the user wants it in the product: offer `design-level` in `build` mode, with the direction contract and the mockup paths. Offer `fullstack-level` instead if the direction needs data or states the backend does not provide.
+- A direction is chosen and built as a mockup or prototype, and the user wants it in the product: offer `design-level` in `build` mode, with the direction contract and the mockup paths. If the direction needs data or states the backend does not provide, say so and name `backend-level` as the step that must come first.
 - No direction can be derived because the product does not know what it is or who it is for: offer `idea-level` with the current product as the seed.
 - The complaint is about finding things or finishing tasks, not about the look: offer `ux-level`. A restyle will not fix a broken flow.
 - The user needs to present the chosen direction to others: offer `pitch-level`.

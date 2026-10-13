@@ -176,7 +176,7 @@ backend: 3/4 gaps=5
 
 - The backend now returns a state or handles an edge case that the interface does not show (error, conflict, rate limit, expired session, offline, partial result): offer `design-level`, and list the exact states it must design.
 - The audit shows the product's rules are undecided, so correct behaviour cannot be defined: offer `idea-level` with the open questions as the seed.
-- The user wants both layers raised: offer `fullstack-level` instead of continuing alone.
+- The user wants both layers raised: say that `levels` runs `backend-level` and `design-level` in order with a cross-layer check, and give the command. Do not start it from here.
 
 **Handoffs into this skill.** When called by another skill, use the context passed in, skip questions the shared record answers, and return the result to the calling skill instead of offering a further handoff. When called with a blueprint and no existing backend, still run Step 0, skip the audit, and plan the first version from the blueprint at the target LEVEL, with the edge case catalogue applied to the planned entry points.
 

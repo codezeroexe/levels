@@ -11,7 +11,6 @@ import sys
 from common import ORDER, ROOT, frontmatter
 
 HELPERS = {"levels", "levels-status", "levels-next", "levels-help"}
-COORDINATORS = {"fullstack-level"}
 LAYER_SECTIONS = ["Levels", "Models", "Step 0", "Step 1", "Step 2", "Step 3",
                   "Step 4", "Step 5", "Connections", "Quality bar"]
 ROW = re.compile(
@@ -60,7 +59,7 @@ def main():
             problem(where, "description contains a colon and must be quoted")
 
         headings = re.findall(r"^## (.+)$", text, re.M)
-        if name not in HELPERS | COORDINATORS:
+        if name not in HELPERS:
             for section in LAYER_SECTIONS:
                 if not any(h.startswith(section) for h in headings):
                     problem(where, f"no section starting '## {section}'")

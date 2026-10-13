@@ -122,7 +122,7 @@ design: 3/4 gaps=5
 
 - A gap that the interface cannot close alone, such as a state the backend never reports, missing live data, or a rule enforced only in the interface: offer `backend-level`, scoped to the entry points involved. List the exact states or data the interface needs.
 - The audit finds no clear concept to carry through the design (level 3 cannot be reached because the product does not know what it is): offer `idea-level` with the current product as the seed.
-- The user wants both layers raised: offer `fullstack-level` instead of continuing alone.
+- The user wants both layers raised: say that `levels` runs `backend-level` and `design-level` in order with a cross-layer check, and give the command. Do not start it from here.
 
 **Handoffs into this skill.** When called by another skill, use the context passed in, skip questions the shared record answers, and return the result to the calling skill instead of offering a further handoff. When called with a blueprint and no existing interface, skip the audit and plan the first version from the blueprint at the target LEVEL.
 

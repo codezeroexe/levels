@@ -18,7 +18,7 @@ Parse the arguments:
 
 State the parsed settings in one line before starting. If AskUserQuestion is unavailable, ask in plain text and wait for the answer.
 
-You are the conductor. You do not audit, plan or build anything yourself. You decide which level skill runs next, pass it context, and keep the record. Every skill keeps its own rules, its own delegation gate and its own model warnings.
+You are the conductor. You do not audit, plan or build anything yourself, apart from the cross-layer check in Step 3. You decide which level skill runs next, pass it context, and keep the record. Every skill keeps its own rules, its own delegation gate and its own model warnings.
 
 ## Phases
 
@@ -27,7 +27,7 @@ You are the conductor. You do not audit, plan or build anything yourself. You de
 | Orient | `levels-status` | never |
 | Define | `idea-level` | a confirmed blueprint or a working product exists |
 | Shape | `ux-level`, `restyle-level` | the project has no interface |
-| Build | `data-level`, then `fullstack-level` | nothing chosen to build. Skip `data-level` when nothing is stored. Use `design-level` or `backend-level` alone when only one layer exists or is in scope |
+| Build | `data-level`, then `backend-level`, then `design-level` | nothing chosen to build. Skip `data-level` when nothing is stored. Skip a layer that does not exist or is not in scope |
 | Harden | `test-level`, `security-level`, `perf-level`, `code-level` | never as a whole. Skip single skills by the level plan |
 | Release | `docs-level`, `ship-level` | the product is not going to be run by anyone else or anywhere else |
 | Present | `pitch-level` | nobody needs persuading |
@@ -58,7 +58,6 @@ Shortcuts for the common selections:
    - **Build**, "What do you want built or raised?"
      - Interface (`design-level`)
      - Server and logic (`backend-level`)
-     - Both layers together (`fullstack-level`)
      - Stored data and migrations (`data-level`)
    - **Harden**, "What do you want made safer?"
      - Tests (`test-level`)
@@ -73,7 +72,6 @@ Shortcuts for the common selections:
    Write each option's description from the project state: the current level from the levels block, and the count of open gaps. From the state, mark up to two options per question as recommended: put them first and end the label with "(Recommended)". Leave out options that cannot apply, such as interface options in a project with no interface, and say which were left out and why.
 
 4. Resolve the selection:
-   - Both layers and a single layer ticked: keep `fullstack-level` and drop the single layer. Say so.
    - Nothing ticked anywhere: run `levels-next` and offer its single recommendation.
    - A ticked skill depends on one not ticked (a build with no tests after it, a release with no written steps, a restyle on a flow never checked): name the missing skill and ask once whether to add it. Follow the answer.
 5. Ask once, in one round, only what `LEVELS.md` does not answer: what the product is for, who uses it, where it runs, any date, and how much model spend the user accepts for this run (low, medium, no limit).
@@ -95,6 +93,13 @@ For each skill in the plan, in order:
 3. Invoke the skill with the Skill tool, passing level, mode and scope. Tell it that `levels` called it: it reuses the shared record, reports back, and offers no handoff of its own.
 4. When it returns, read its findings for anything that belongs to another skill, and apply the back-edge table.
 5. Update the flow section: skill, level reached, open gaps, date.
+6. When `backend-level` and `design-level` have both run in this flow, run the cross-layer check once, by reading both sections of the record and the code they cite:
+   - Every state the backend can return (loading, empty, error, partial, conflict, rate-limited, offline, expired session) has a designed state in the interface.
+   - Every edge case the backend handles is shown to the user in a way they can act on.
+   - Every action in the interface maps to a backend entry point that validates it. Nothing is enforced only in the interface.
+   - Live data in the interface matches what the backend can push or be polled for under the hosting profile.
+
+   Queue each failure for the layer skill that owns it, by the back-edge rule. Record the result in the flow section.
 
 In `audit` MODE, after the last skill, show one merged list of gaps across all skills, ranked by risk, and ask which to build. Then run those skills again in `build` mode in phase order.
 
