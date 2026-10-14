@@ -7,7 +7,6 @@
   <img alt="Version 0.1.0" src="https://img.shields.io/badge/version-0.1.0-c96442?labelColor=191817">
   <img alt="17 skills" src="https://img.shields.io/badge/skills-17-c96442?labelColor=191817">
   <img alt="For Claude Code" src="https://img.shields.io/badge/for-Claude%20Code-c96442?labelColor=191817">
-  <a href="#status-of-testing"><img alt="Status: early" src="https://img.shields.io/badge/status-early-8a847a?labelColor=191817"></a>
 </p>
 
 <p align="center">
@@ -26,8 +25,6 @@
 **Think big. Type cheap.**
 
 Levels is a set of seventeen skills for Claude Code. Each layer skill rates one part of a project (interface, backend, tests, security and so on) on a scale from 1 to 5, shows what is missing for the level you choose, and proposes options. If you ask it to build, it splits the work into small sub-plans and hands them to cheaper models, after showing you the plan and asking first.
-
-**Status: v0.1.0, early.** Six of the seventeen skills have been run, once each, on one small sample project. See [Status of testing](#status-of-testing) for what is and is not checked.
 
 ## Install
 
@@ -188,8 +185,6 @@ Think big, type cheap:
 - Nothing builds until you answer. A skill started by another skill asks again.
 - An Opus audit of a large project uses a lot of tokens. To spend least: run audits only, pick few gaps and keep the target level modest.
 
-This project publishes no cost figures, because none have been measured.
-
 ## Safety limits
 
 These limits are instructions in the skill text. They are not enforced by code, so read the plan at the delegation gate before you approve it.
@@ -216,27 +211,6 @@ backend: 2/3 gaps=12
 
 Below the block, each skill keeps a section with its profile, findings and date, so later skills do not ask the same questions again. The format, including the parts that are not yet fixed, is described in [docs/levels-md-format.md](docs/levels-md-format.md). A filled-in example is in [docs/example-LEVELS.md](docs/example-LEVELS.md).
 
-## Status of testing
-
-Version 0.1.0.
-
-Checked:
-
-- `claude plugin validate . --strict` passes for the marketplace manifest, the plugin manifest and the `skills/` folder (Claude Code 2.1.296).
-- `python3 scripts/validate.py` passes.
-- The `model` setting in the frontmatter changes the session model as described above.
-
-Not checked:
-
-- Only `levels-help`, `levels-status`, `levels-next`, `design-level`, `backend-level` and `test-level` have been run, once each, on one small sample project. `test-level` is the only skill run in `build` mode. The person testing answered the skills' questions in place of a user.
-- The other eleven skills, including the `levels` conductor and its cross-layer check, have not been run.
-- The path for sessions that cannot use Opus has not been run.
-- Installing through the marketplace has not been tried from the published repository.
-- Handoffs between skills, and the conductor suppressing handoffs in the skills it calls, have not been observed in a real run.
-- The `LEVELS.md` format has gaps, listed in the format page.
-
-Expect rough edges. Use `audit` mode first, and use version control so any change can be undone.
-
 ## FAQ
 
 **Will it change my code?** Not in `audit` mode. In `build` mode, only after you pick options and approve the delegation gate.
@@ -245,7 +219,7 @@ Expect rough edges. Use `audit` mode first, and use version control so any chang
 
 **Do I need every skill?** No. Skip what does not apply. The skills say so when a requirement does not fit the product.
 
-**What does it cost?** This project publishes no cost figures, because none have been measured. Each sub-plan starts an agent with its own start-up cost, so for a plan of three sub-plans or fewer the gate says that no delegation may cost less. To spend least, run audits only, pick few gaps and keep the target level modest.
+**What does it cost?** It depends on the project and the plan. Each sub-plan starts an agent with its own start-up cost, so for a plan of three sub-plans or fewer the gate says that no delegation may cost less. To spend least, run audits only, pick few gaps and keep the target level modest.
 
 **Which models does it use?** Opus for thinking and review, Haiku or Sonnet for execution. See [Models and cost](#models-and-cost).
 

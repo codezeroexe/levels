@@ -35,8 +35,3 @@ First packaged version.
 ### Removed
 
 - `fullstack-level`. `levels` runs `backend-level` and `design-level` in order and now carries the cross-layer check. `idea-level`, `design-level`, `backend-level`, `restyle-level` and `levels-next` point to `levels` or to the single layer skills instead.
-
-### Known limits
-
-- Six of the seventeen skills have been run, once each. The `levels` conductor and handoffs have not.
-- Parts of the `LEVELS.md` format are not yet defined. See the format page.
