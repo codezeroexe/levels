@@ -1,0 +1,3 @@
+# GitHub language stats: the product is Markdown skills, the Python is tooling.
+*.md linguist-detectable=true
+scripts/*.py linguist-detectable=false
