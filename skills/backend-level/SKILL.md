@@ -3,7 +3,7 @@ name: backend-level
 description: Audit a project's backend against a 5-level engineering maturity scale, with a hosting profile and a full edge case walk, propose options, then split the chosen work into sub-plans delegated to Haiku or Sonnet while Opus plans and reviews. Use when the user runs /backend-level or asks to rate, audit or harden a backend.
 summary: Harden the server, logic and edge cases
 argument-hint: "[level 1-5] [audit|build] [compliance] [scope path]"
-model: opus
+model: inherit
 ---
 
 # Backend level
@@ -54,7 +54,7 @@ After the catalogue, add the cases specific to this product's own rules that the
 
 Planning and audit run on Opus only. Execution runs on Haiku, or Sonnet when required.
 
-- If this session is not running Opus, say which model is running and ask the user whether to continue on it or stop. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
+- If this session is not running Opus or Fable, say which model is running and ask the user whether to continue on it or stop. On Fable, read Opus in this skill as Fable, including in printed lines. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
 - Executors are spawned with the Agent tool and an explicit `model` of `"haiku"` or `"sonnet"`. Never leave the model unset.
 - Opus never makes the edits. Executors never change scope, make architecture decisions or review their own work.
 

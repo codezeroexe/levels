@@ -31,6 +31,8 @@ const AGENTS = {
     invoke: '$name',
     models: { planner: 'gpt-6.1-sol', heavy: 'gpt-6.1-sol', light: 'gpt-6-luna' },
     effort: { planner: 'high', heavy: 'medium' },
+    // Also accepted as Planner: the most capable Codex model, at a higher cost.
+    alsoPlanner: ['gpt-6-astra'],
     agentFile: (role) => path.join('.codex', 'agents', `levels-${role}.toml`),
     hint: 'a Codex model ID, for example gpt-6.1-sol or gpt-6-luna',
   },
@@ -187,9 +189,9 @@ const LINE_RULES = [
     'Arguments: the text the user gave after the skill name. If there is none, use the defaults below.'],
   ['- Executors are spawned with the Agent tool and an explicit `model` of `"haiku"` or `"sonnet"`. Never leave the model unset.',
     '- Executors are started as the `levels-light` or `levels-heavy` sub-agent. Never run a sub-plan in a general sub-agent, because its model is not set.'],
-  ['- If this session is not running Opus, say which model is running',
-    '- If this session is not running the Planner model in your row of the table above, say which model is running'],
-  ['spawn an Opus agent with no conversation history',
+  ['- If this session is not running Opus or Fable, say which model is running and ask the user whether to continue on it or stop. On Fable, read Opus in this skill as Fable, including in printed lines.',
+    '- If this session is not running a Planner model in your row of the table above, say which model is running and ask the user whether to continue on it or stop.'],
+  ["spawn an agent on this session's model (`opus` or `fable`) with no conversation history",
     'start a fresh sub-agent with no conversation history, on the Planner model if your agent lets you set it'],
   ['Use one AskUserQuestion call with four questions, each with `multiSelect: true`.',
     'Ask four questions in one ask-user call, each allowing several answers.'],
@@ -198,6 +200,7 @@ const LINE_RULES = [
 const WORD_RULES = [
   [/\(Opus\)/g, '(Planner)'],
   [/\bAskUserQuestion\b/g, 'the ask-user tool'],
+  [/\bOpus \(or Fable, if your session runs it\)/g, 'the Planner'],
   [/\bon Opus\b/g, 'on the Planner'],
   [/\bOpus\b/g, 'the Planner'],
   [/\bSonnet\b/g, 'Heavy'],
@@ -205,7 +208,7 @@ const WORD_RULES = [
 ];
 
 // Anything left after translation that only Claude Code understands.
-const LEFTOVER = /\$ARGUMENTS|\bAgent tool\b|AskUserQuestion|multiSelect|\b(Opus|Sonnet|Haiku)\b|"haiku"|"sonnet"/;
+const LEFTOVER = /\$ARGUMENTS|\bAgent tool\b|AskUserQuestion|multiSelect|\b(Opus|Sonnet|Haiku|Fable)\b|"haiku"|"sonnet"|`(opus|fable)`/;
 
 function splitSkill(text) {
   const m = text.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
@@ -233,7 +236,8 @@ function modelTable(installed) {
   for (const [id, models] of Object.entries(installed)) {
     const effort = AGENTS[id].effort || {};
     const cell = (r) => (models && models[r]
-      ? `\`${models[r]}\`${effort[r] ? `, reasoning effort ${effort[r]}` : ''}`
+      ? `\`${models[r]}\`${effort[r] ? `, reasoning effort ${effort[r]}` : ''}` +
+        (r === 'planner' ? (AGENTS[id].alsoPlanner || []).map((m) => `, or \`${m}\``).join('') : '')
       : 'not chosen');
     rows.push(`| ${AGENTS[id].label} | ${cell('planner')} | ${cell('heavy')} | ${cell('light')} |`);
   }

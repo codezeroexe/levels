@@ -3,7 +3,7 @@ name: test-level
 description: Audit how well a project proves it works against a 5-level testing maturity scale, find untested critical paths and weak tests, propose options, then split the chosen work into sub-plans delegated to Haiku or Sonnet while Opus plans and reviews. Use when the user runs /test-level or asks to rate, audit or improve tests.
 summary: Prove the product works
 argument-hint: "[level 1-5] [audit|build] [scope path]"
-model: opus
+model: inherit
 ---
 
 # Test level
@@ -34,7 +34,7 @@ Each level includes everything in the levels below it. The current level is the 
 
 Planning and audit run on Opus only. Execution runs on Haiku, or Sonnet when required.
 
-- If this session is not running Opus, say which model is running and ask the user whether to continue on it or stop. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
+- If this session is not running Opus or Fable, say which model is running and ask the user whether to continue on it or stop. On Fable, read Opus in this skill as Fable, including in printed lines. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
 - Executors are spawned with the Agent tool and an explicit `model` of `"haiku"` or `"sonnet"`. Never leave the model unset.
 - Opus never makes the edits. Executors never change scope, decide what is worth testing or review their own work.
 

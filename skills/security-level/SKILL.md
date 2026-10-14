@@ -3,7 +3,7 @@ name: security-level
 description: Audit a project's security against a 5-level scale, starting from a threat model of what is valuable and who would attack it, then propose options and split the chosen fixes into sub-plans delegated to Haiku or Sonnet while Opus plans and reviews. Defensive work on the user's own project only. Use when the user runs /security-level or asks to audit, review or harden security.
 summary: Find and close security weaknesses
 argument-hint: "[level 1-5] [audit|build] [compliance] [scope path]"
-model: opus
+model: inherit
 ---
 
 # Security level
@@ -42,7 +42,7 @@ Each level includes everything in the levels below it. The current level is the 
 
 Planning and audit run on Opus only. Execution runs on Haiku, or Sonnet when required.
 
-- If this session is not running Opus, say which model is running and ask the user whether to continue on it or stop. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
+- If this session is not running Opus or Fable, say which model is running and ask the user whether to continue on it or stop. On Fable, read Opus in this skill as Fable, including in printed lines. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
 - Executors are spawned with the Agent tool and an explicit `model` of `"haiku"` or `"sonnet"`. Never leave the model unset.
 - Opus never makes the edits. Executors never change scope, choose a security mechanism or review their own work.
 
