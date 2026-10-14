@@ -1,0 +1,1 @@
+{"target": 2, "expect": 1, "why": "Documented run command, manual checklist, py_compile check passes. Level 2 not met: no automated tests."}

@@ -1,0 +1,1 @@
+Readers: people using the tool, and the builder later on. Background: comfortable with a terminal, new to this tool. Most asked: how to run it and what the input file must look like. Read in the repository. Language: plain English. Nothing must stay out. Upkeep: one person, changes rarely. No handover planned.

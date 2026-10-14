@@ -14,6 +14,7 @@ First packaged version.
 - `docs/levels-md-format.md`, describing the `LEVELS.md` record.
 - Issue templates for a bug in a skill and for a new skill proposal.
 - `templates/layer-skill/SKILL.md`, a template for a new layer skill.
+- `fixtures/` and `scripts/fixtures.py`: projects with a known level for `docs-level` and `test-level` (levels 1 and 2), and a script that runs their audits headless and compares the grade.
 
 ### Changed after the first test run
 

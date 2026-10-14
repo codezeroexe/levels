@@ -1,0 +1,1 @@
+What must never break: the totals per category are correct, and the command prints one line per category. Changes ship rarely, by one person. Cost of a failure: annoying. Time budget: under 10 seconds. Environments: Python 3.8 or later on any OS. Tests must not call any outside service; there are none. Known trouble: none. Tests are run by hand today.

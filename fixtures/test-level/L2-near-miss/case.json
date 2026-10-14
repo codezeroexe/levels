@@ -1,0 +1,1 @@
+{"target": 2, "expect": 1, "why": "Same layout as L2-meets, but the tests assert only types and counts. Breaking the sum fails no test."}
