@@ -123,11 +123,11 @@ It never replaces a folder or file it did not write, including symlinks. If it f
 
 | Agent | Planner (your session) | Heavy | Light |
 |---|---|---|---|
-| Codex CLI | `gpt-6.1-sol`, reasoning effort high | `gpt-6.1-sol`, reasoning effort medium | `gpt-6-luna` |
+| Codex CLI | `gpt-6.1-sol`, reasoning effort high, or `gpt-6-astra` (costs more) | `gpt-6.1-sol`, reasoning effort medium | `gpt-6-luna` |
 | Gemini CLI | `gemini-4-argon` | `gemini-3.8-flash` | `gemini-3.5-flash-lite` |
 | opencode, Cursor, Copilot | your choice | your choice | your choice |
 
-The Planner takes the place of Opus, Heavy of Sonnet and Light of Haiku. To set models without the prompt, pass `--models <agent>=<planner>,<heavy>,<light>`, for example `--models opencode=anthropic/claude-opus-5-5,anthropic/claude-sonnet-5-5,anthropic/claude-haiku-5-5`. This also overrides the Codex and Gemini defaults.
+The Planner takes the place of Opus, Heavy of Sonnet and Light of Haiku. The Planner is the model your session runs on. In Codex, `gpt-6-astra` is accepted as Planner too. It is OpenAI's most capable Codex model and costs more than `gpt-6.1-sol`, so a skill started on Astra asks first whether to continue on it. To set models without the prompt, pass `--models <agent>=<planner>,<heavy>,<light>`, for example `--models opencode=anthropic/claude-opus-5-5,anthropic/claude-sonnet-5-5,anthropic/claude-haiku-5-5`. This also overrides the Codex and Gemini defaults.
 
 #### Options
 
@@ -175,7 +175,7 @@ Layer skills start in `audit` mode unless you say `build`. An audit rates and pr
 
 **"Make it better" has no finish line.** Every skill has five named levels, so a target is a place you can name. For the interface they are Clean, Considered, Branded, Studio and Showcase. The skill states the level you are at now, with evidence from your files, and lists what separates you from the level you chose.
 
-**The expensive model should think, not type.** Opus handles context, audit, options, planning and review. Haiku, or Sonnet where the work cannot be fully written out in advance, does the execution, one small sub-plan at a time. See [Models and cost](#models-and-cost).
+**The expensive model should think, not type.** Opus, or Fable if you pick it, handles context, audit, options, planning and review. Haiku, or Sonnet where the work cannot be fully written out in advance, does the execution, one small sub-plan at a time. See [Models and cost](#models-and-cost).
 
 **Nothing builds until you say so.** Skills audit first. They stop after the options and wait. Before any sub-plan runs, a gate shows which model will do which piece and asks you. A skill started by another skill asks again.
 
@@ -283,11 +283,11 @@ Pass a route to skip the question prompt: `/levels <route> [audit|build]`.
 
 Think big, type cheap:
 
-- Context, audit, options, planning and review are written to run on Opus. The skills set `model: opus` in their frontmatter.
+- Context, audit, options, planning and review are written to run on Opus. The skills set `model: inherit`, so they run on the model you picked with `/model`. Fable is allowed but never chosen for you: it costs more per token and may bill to usage credits.
 - Execution is delegated to Haiku, or to Sonnet where the work cannot be fully written out in advance. `restyle-level` is the exception and defaults to Sonnet for first screens.
 - Before any sub-plan runs, the skill prints a line such as `Delegation: 6 sub-plans on Haiku, 2 on Sonnet. Review on Opus.` and offers four choices: delegate as planned, Haiku only, Sonnet for all, or no delegation. `data-level` and `security-level` replace "Haiku only" with "Haiku where allowed", because they keep migrations and sign-in work off Haiku.
-- A skill's `model` setting changes the model of your session for the rest of that turn. `levels-help` and `levels-status` set Haiku, `levels-next` sets Sonnet, and the rest set Opus.
-- If the session cannot use Opus, the skill says which model is running and asks whether to continue or stop.
+- A skill's `model` setting changes the model of your session for the rest of that turn. `levels-help` and `levels-status` set Haiku, `levels-next` sets Sonnet, and the rest keep your session model.
+- On Opus the skill starts without asking. On Fable, which shows you have access, it says that Fable costs more and asks whether to continue on Fable or rerun on Opus. On any other model it says which model is running and asks whether to continue or stop.
 - Nothing builds until you answer. A skill started by another skill asks again.
 - An Opus audit of a large project uses a lot of tokens. To spend least: run audits only, pick few gaps and keep the target level modest.
 
@@ -327,7 +327,7 @@ Below the block, each skill keeps a section with its profile, findings and date,
 
 **What does it cost?** It depends on the project and the plan. Each sub-plan starts an agent with its own start-up cost, so for a plan of three sub-plans or fewer the gate says that no delegation may cost less. To spend least, run audits only, pick few gaps and keep the target level modest.
 
-**Which models does it use?** Opus for thinking and review, Haiku or Sonnet for execution. See [Models and cost](#models-and-cost).
+**Which models does it use?** Opus for thinking and review, or Fable if you choose it, and Haiku or Sonnet for execution. See [Models and cost](#models-and-cost).
 
 **Does it work with other agents?** Levels is written for Claude Code. The installer in [Other agents](#other-agents) adapts it for Codex CLI, Gemini CLI, opencode, Cursor and GitHub Copilot CLI. How well each agent follows the skills is unconfirmed.
 

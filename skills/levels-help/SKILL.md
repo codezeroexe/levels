@@ -79,7 +79,7 @@ Arguments go after the command, in any order.
 
 ## Models
 
-- Opus does the thinking: context, audit, options, plan and review.
+- Opus (or Fable, if your session runs it) does the thinking: context, audit, options, plan and review.
 - Haiku or Sonnet does the building. Haiku is the default. Sonnet is used where the work cannot be fully written out in advance.
 - Before any building starts you see a line such as `Delegation: 6 sub-plans on Haiku, 2 on Sonnet. Review on Opus.` and four choices: as planned, Haiku only, Sonnet for all, or no delegation.
 - Nothing builds until you answer. Each skill started by another skill asks again, because it starts its own spend.

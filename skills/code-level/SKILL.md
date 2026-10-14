@@ -3,7 +3,7 @@ name: code-level
 description: Audit a codebase's maintainability against a 5-level scale (structure, duplication, dependencies, consistency, how hard a typical change is), then propose options and split the chosen refactoring into sub-plans delegated to Haiku or Sonnet while Opus plans and reviews. Changes structure only, never behaviour. Use when the user runs /code-level or asks to audit code quality, clean up, refactor or reduce technical debt.
 summary: Clean up structure without changing behaviour
 argument-hint: "[level 1-5] [audit|build] [scope path]"
-model: opus
+model: inherit
 ---
 
 # Code level
@@ -75,7 +75,7 @@ If the project already uses a marker for this, use that one.
 
 Planning and audit run on Opus only. Execution runs on Haiku, or Sonnet when required.
 
-- If this session is not running Opus, say which model is running and ask the user whether to continue on it or stop. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
+- If this session runs Opus, continue. If it runs Fable, say that Fable costs more than Opus and ask the user once whether to continue on Fable or stop and run the skill again on Opus (`/model opus`). On Fable, read Opus in this skill as Fable, including in printed lines. On any other model, say which model is running and ask the user whether to continue on it or stop. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
 - Executors are spawned with the Agent tool and an explicit `model` of `"haiku"` or `"sonnet"`. Never leave the model unset.
 - Opus never makes the edits. Executors never change scope, choose a structure or review their own work.
 

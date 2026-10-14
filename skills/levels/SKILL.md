@@ -3,7 +3,7 @@ name: levels
 description: Conduct the connected level skills as one workflow. Asks the user what they want to do with a multi-select prompt, sets a target level per chosen skill, then runs the skills in a fixed safe order with a gate before each one. Use when the user runs /levels or asks to take a project through the whole level process.
 summary: Run several skills as one workflow
 argument-hint: "[new|raise|redesign|release|present] [audit|build] [from <phase>]"
-model: opus
+model: inherit
 ---
 
 # Levels

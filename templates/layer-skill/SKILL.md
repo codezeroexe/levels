@@ -3,7 +3,7 @@ name: <name>-level
 description: Audit <what part of a project> against a 5-level <what the scale measures> scale, propose options, then split the chosen work into sub-plans delegated to Haiku or Sonnet while Opus plans and reviews. Use when the user runs /<name>-level or asks to <the requests that should trigger it>.
 summary: <Six words or fewer for the skill table, starting with a verb>
 argument-hint: "[level 1-5] [audit|build] [scope path]"
-model: opus
+model: inherit
 ---
 
 # <Name> level
@@ -36,7 +36,7 @@ Each level includes everything in the levels below it. The current level is the 
 
 Planning and audit run on Opus only. Execution runs on Haiku, or Sonnet when required.
 
-- If this session is not running Opus, say which model is running and ask the user whether to continue on it or stop. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
+- If this session runs Opus, continue. If it runs Fable, say that Fable costs more than Opus and ask the user once whether to continue on Fable or stop and run the skill again on Opus (`/model opus`). On Fable, read Opus in this skill as Fable, including in printed lines. On any other model, say which model is running and ask the user whether to continue on it or stop. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
 - Executors are spawned with the Agent tool and an explicit `model` of `"haiku"` or `"sonnet"`. Never leave the model unset.
 - Opus never makes the edits. Executors never change scope, <make the decisions that belong to the plan> or review their own work.
 

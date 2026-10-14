@@ -3,7 +3,7 @@ name: perf-level
 description: Audit a project's speed and resource use against a 5-level scale, by measuring key tasks on the weakest target device and at expected peak load before changing anything, then propose options and split the chosen work into sub-plans delegated to Haiku or Sonnet while Opus plans and reviews. Use when the user runs /perf-level or asks to measure, audit or improve performance, speed or load handling.
 summary: Measure and improve speed
 argument-hint: "[level 1-5] [audit|build] [scope: task or path]"
-model: opus
+model: inherit
 ---
 
 # Perf level
@@ -42,7 +42,7 @@ Each level includes everything in the levels below it. The current level is the 
 
 Planning, measurement and audit run on Opus only. Execution runs on Haiku, or Sonnet when required.
 
-- If this session is not running Opus, say which model is running and ask the user whether to continue on it or stop. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
+- If this session runs Opus, continue. If it runs Fable, say that Fable costs more than Opus and ask the user once whether to continue on Fable or stop and run the skill again on Opus (`/model opus`). On Fable, read Opus in this skill as Fable, including in printed lines. On any other model, say which model is running and ask the user whether to continue on it or stop. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
 - Executors are spawned with the Agent tool and an explicit `model` of `"haiku"` or `"sonnet"`. Never leave the model unset.
 - Opus never makes the edits. Executors never change scope, choose what to optimise or review their own work.
 

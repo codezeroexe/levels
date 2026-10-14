@@ -3,7 +3,7 @@ name: pitch-level
 description: Audit and build how a finished project is presented (demo, talk, deck, one-page summary, answers to hard questions) against a 5-level scale, fitted to a named audience and their criteria, using only claims the project can back. Opus shapes the story and reviews, Haiku and Sonnet draft materials. Use when the user runs /pitch-level or asks to prepare a demo, presentation, pitch, submission or showcase.
 summary: Prepare a demo, talk or submission
 argument-hint: "[level 1-5] [audit|build] [format: demo, deck, video, written]"
-model: opus
+model: inherit
 ---
 
 # Pitch level
@@ -41,7 +41,7 @@ Each level includes everything in the levels below it. The current level is the 
 
 Story, structure, judgement and review run on Opus only. Drafting runs on Haiku, or Sonnet when required.
 
-- If this session is not running Opus, say which model is running and ask the user whether to continue on it or stop. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
+- If this session runs Opus, continue. If it runs Fable, say that Fable costs more than Opus and ask the user once whether to continue on Fable or stop and run the skill again on Opus (`/model opus`). On Fable, read Opus in this skill as Fable, including in printed lines. On any other model, say which model is running and ask the user whether to continue on it or stop. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
 - Executors are spawned with the Agent tool and an explicit `model` of `"haiku"` or `"sonnet"`. Never leave the model unset.
 - Executors draft from an outline and sources. They never add a claim, a number or a feature that is not in the sources.
 

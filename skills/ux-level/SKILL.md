@@ -3,7 +3,7 @@ name: ux-level
 description: Audit how easily real users complete their tasks against a 5-level usability scale, by walking each key task as a first-time user and checking flow, feedback, error recovery and wording, then propose options and split the chosen fixes into sub-plans delegated to Haiku or Sonnet while Opus plans and reviews. Covers behaviour and flow, not visual style. Use when the user runs /ux-level or asks to audit or improve usability, flows, onboarding or interface wording.
 summary: Check whether users can finish their tasks
 argument-hint: "[level 1-5] [audit|build] [scope: task or screen]"
-model: opus
+model: inherit
 ---
 
 # UX level
@@ -34,7 +34,7 @@ Each level includes everything in the levels below it. The current level is the 
 
 Planning and audit run on Opus only. Execution runs on Haiku, or Sonnet when required.
 
-- If this session is not running Opus, say which model is running and ask the user whether to continue on it or stop. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
+- If this session runs Opus, continue. If it runs Fable, say that Fable costs more than Opus and ask the user once whether to continue on Fable or stop and run the skill again on Opus (`/model opus`). On Fable, read Opus in this skill as Fable, including in printed lines. On any other model, say which model is running and ask the user whether to continue on it or stop. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
 - Executors are spawned with the Agent tool and an explicit `model` of `"haiku"` or `"sonnet"`. Never leave the model unset.
 - Opus never makes the edits. Executors never change scope, decide how a flow should work, write their own wording or review their own work.
 

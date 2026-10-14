@@ -3,7 +3,7 @@ name: restyle-level
 description: Pitch and build alternative visual directions for an existing or planned interface, on a 5-level depth scale from written directions to a handover-ready prototype. Reads the current design, decides between evolving and replacing it, derives distinct directions from the product's own world, then delegates mockup building to Haiku or Sonnet while Opus plans and reviews. Use when the user runs /restyle-level or asks for a redesign, a new look, style or layout options, or a different direction.
 summary: See alternative looks and layouts as mockups
 argument-hint: "[level 1-5] [explore|refine] [count] [evolve|replace] [a11y] [scope]"
-model: opus
+model: inherit
 ---
 
 # Restyle level
@@ -39,7 +39,7 @@ Each level includes everything in the levels below it. The current level is the 
 
 Planning, reading and review run on Opus only. Building runs on Sonnet, or Haiku where the work is fully specified.
 
-- If this session is not running Opus, say which model is running and ask the user whether to continue on it or stop. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
+- If this session runs Opus, continue. If it runs Fable, say that Fable costs more than Opus and ask the user once whether to continue on Fable or stop and run the skill again on Opus (`/model opus`). On Fable, read Opus in this skill as Fable, including in printed lines. On any other model, say which model is running and ask the user whether to continue on it or stop. Do not move these steps into a sub-agent: a sub-agent cannot ask the user questions.
 - Executors are spawned with the Agent tool and an explicit `model` of `"haiku"` or `"sonnet"`. Never leave the model unset.
 - Opus never builds the mockups. Executors never make design decisions, change a direction or review their own work.
 
@@ -201,7 +201,7 @@ Absent, unless the user's brief asks for it:
 
 ## Step 5: Review (Opus)
 
-1. Review in a fresh context: spawn an Opus agent with no conversation history. Give it the user's request, the confirmed profile, the direction contracts, the done check and the file paths. A reviewer that inherits the build conversation inherits its optimism.
+1. Review in a fresh context: spawn an agent on this session's model (`opus` or `fable`) with no conversation history. Give it the user's request, the confirmed profile, the direction contracts, the done check and the file paths. A reviewer that inherits the build conversation inherits its optimism.
 2. The reviewer opens every screen at desktop and phone width in one batched round, checks each against its contract and the done check, and repeats the squint and memory tests on the built first screens.
 3. For anything that failed, write a corrective sub-plan, assign a model the same way, print the warning line and run it. One corrective round, then report the remainder.
 4. Show the user the built directions side by side, with what each kept, what each dropped, and where each falls short of its card. Report anything not verified.

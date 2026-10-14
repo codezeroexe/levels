@@ -36,7 +36,7 @@ Use the "Bug in a skill" issue template. Say which skill, the exact command, you
 A layer skill rates one part of a project. Every layer skill, new or changed, must keep these rules. A pull request that breaks one needs to say why.
 
 1. **Same steps.** The skill rates its part on a 1 to 5 scale and follows the same steps in the same order: context questions (look first, then ask in at most two rounds), audit with evidence, two or three options per gap, an execution plan split into sub-plans, a delegation gate, execution, review.
-2. **Models.** Planning, audit and review run on Opus only. Execution runs on Haiku, or on Sonnet when required. Executors are spawned with an explicit model, never with the model left unset.
+2. **Models.** Planning, audit and review run on Opus, or on Fable only after the user agrees to its cost (`model: inherit`). Execution runs on Haiku, or on Sonnet when required. Executors are spawned with an explicit model, never with the model left unset.
 3. **Delegation gate.** Before any executor runs, the skill prints `Delegation: <n> sub-plans on Haiku, <n> on Sonnet. Review on Opus.` with the real counts, and asks the user with four choices. Nothing runs until the user answers.
 4. **Flexible sub-plan count.** The number of sub-plans follows the size of the work. No fixed count, no padding, no merging of unrelated work.
 5. **Accessibility is opt-in.** Accessibility requirements (WCAG AA, keyboard access, visible focus) are off unless the user passes a switch.

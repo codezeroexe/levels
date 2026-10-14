@@ -14,6 +14,7 @@ First packaged version.
 - `docs/levels-md-format.md`, describing the `LEVELS.md` record.
 - Issue templates for a bug in a skill and for a new skill proposal.
 - `install.js`: installs the skills for Codex CLI, Gemini CLI, opencode, Cursor and GitHub Copilot CLI, translating Claude model names to per-agent models and writing executor sub-agents. Checked by `scripts/install.test.js` in CI.
+- Fable and GPT-6 Astra as an opt-in planner: the skills that set `model: opus` now set `model: inherit`. On Opus or `gpt-6.1-sol` they start as before. On Fable or `gpt-6-astra` they say it costs more and ask whether to continue.
 - `templates/layer-skill/SKILL.md`, a template for a new layer skill.
 
 ### Changed after the first test run
