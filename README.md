@@ -1,5 +1,9 @@
 <p align="center">
-  <img src="docs/assets/banner.svg" alt="Levels: 17 skills for Claude Code. Rate, propose, delegate." width="100%">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/banner-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="docs/assets/banner-light.svg">
+    <img src="docs/assets/banner-dark.svg" alt="Levels: 17 skills for Claude Code. Rate, propose, delegate." width="100%">
+  </picture>
 </p>
 
 # Levels
