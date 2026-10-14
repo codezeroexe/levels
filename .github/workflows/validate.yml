@@ -16,3 +16,8 @@ jobs:
         run: python3 scripts/validate.py
       - name: Check the skill tables are up to date
         run: python3 scripts/skills-table.py --check
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Check the installer for other agents
+        run: node --test scripts/install.test.js
