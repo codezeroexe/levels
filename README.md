@@ -347,6 +347,16 @@ The simplification ladder in `code-level` is adapted from the [ponytail](https:/
 
 `restyle-level` borrows from the [impeccable](https://github.com/pbakaus/impeccable) project by Paul Bakaus, which is licensed under Apache 2.0. Copies of its licence and notice file are in [third-party/](third-party/).
 
+## Star History
+
+<a href="https://www.star-history.com/?repos=codezeroexe%2Flevels&type=date&legend=top-right">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=codezeroexe/levels&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=codezeroexe/levels&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=codezeroexe/levels&type=date&legend=top-left" />
+ </picture>
+</a>
+
 ## Licence
 
 MIT. See [LICENSE](LICENSE).
