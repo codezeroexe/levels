@@ -408,8 +408,16 @@ function removeAgents(opts, act, id) {
 // ---------------------------------------------------------------- prompts
 
 async function askModels(id) {
-  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-  const q = (s) => new Promise((r) => rl.question(s, (a) => r(a.trim())));
+  // Queue lines so answers typed or pasted ahead of a question are not lost.
+  const rl = readline.createInterface({ input: process.stdin });
+  const lines = [];
+  const waiting = [];
+  rl.on('line', (l) => (waiting.length ? waiting.shift()(l) : lines.push(l)));
+  rl.on('close', () => waiting.splice(0).forEach((r) => r('')));
+  const q = (s) => {
+    process.stdout.write(s);
+    return new Promise((r) => (lines.length ? r(lines.shift()) : waiting.push(r))).then((a) => a.trim());
+  };
   console.log(`\n${AGENTS[id].label}: choose models now, or press Enter to choose on the first run of a skill.`);
   console.log(`Format: ${AGENTS[id].hint}.`);
   const out = {};
