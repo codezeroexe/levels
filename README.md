@@ -58,9 +58,16 @@ This is example output, adapted from the [first test run](docs/example-LEVELS.md
 
 ## Install
 
-For Claude Code, use one method, not both. Installing both gives you every skill twice.
+| You use | Install with | Start a skill with |
+|---|---|---|
+| Claude Code | [the plugin](#claude-code-as-a-plugin) or [copied folders](#claude-code-by-copying-folders) | `/levels` (plugin: `/levels:levels`) |
+| Codex CLI | [the installer](#other-agents) | `$levels` |
+| Gemini CLI | [the installer](#other-agents) | ask for the skill by name, for example "run the levels skill" |
+| opencode, Cursor, GitHub Copilot CLI | [the installer](#other-agents) | `/levels` |
 
-### As a plugin
+### Claude Code: as a plugin
+
+Use one Claude Code method, not both. Installing both gives you every skill twice.
 
 ```bash
 claude plugin marketplace add codezeroexe/levels
@@ -72,7 +79,7 @@ claude plugin install levels@levels
 
 Plugin skills carry the plugin name as a prefix. The conductor is `/levels:levels`, the design skill is `/levels:design-level`, and so on.
 
-### By copying folders
+### Claude Code: by copying folders
 
 ```bash
 git clone https://github.com/codezeroexe/levels.git
@@ -86,36 +93,61 @@ Skills installed this way have no prefix: `/levels`, `/design-level`. To update,
 
 The rest of this page writes commands without the prefix. Add `levels:` if you installed the plugin.
 
-### For other agents
+### Other agents
 
-An installer copies the skills for Codex CLI, Gemini CLI, opencode, Cursor and GitHub Copilot CLI. It needs Node 18 or newer.
+The installer sets up Codex CLI, Gemini CLI, opencode, Cursor and GitHub Copilot CLI. It needs Node 18 or newer.
 
-```bash
-npx github:codezeroexe/levels
-```
+1. Run it:
 
-On npm 12 or newer, add `--allow-git=root` after `npx`. From a clone, run `node install.js` instead. Add `--dry-run` to see what would change, `--list` to see which agents were found, and `--help` for every option.
+   ```bash
+   npx github:codezeroexe/levels
+   ```
 
-What it does:
+   On npm 12 or newer, git packages are off by default. Use `npx --allow-git=root github:codezeroexe/levels` instead. From a clone, run `node install.js`.
 
-- Writes the seventeen skills once to `~/.agents/skills`, which all five agents read. Each copy is translated while it is written: the Claude model names become three roles (Planner, Heavy, Light), and the skill gets a table of the models each installed agent uses.
-- Writes two executor sub-agents, `levels-heavy` and `levels-light`, in each agent's own format.
-- Codex CLI and Gemini CLI get fixed models:
+2. It finds the agents on your machine and installs for each one. To pick agents yourself, add `-- --only codex,gemini`. To see what it would change first, add `-- --dry-run`.
+3. For opencode, Cursor and Copilot it asks for three models: Planner, Heavy and Light (see below). Press Enter to skip. The first run of a skill then asks, and can save the choice for that project.
+4. Start a new session in each agent so it loads the skills.
 
-  | Agent | Planner (your session) | Heavy | Light |
-  |---|---|---|---|
-  | Codex CLI | `gpt-6.1-sol`, reasoning effort high | `gpt-6.1-sol`, reasoning effort medium | `gpt-6-luna` |
-  | Gemini CLI | `gemini-4-argon` | `gemini-3.8-flash` | `gemini-3.5-flash-lite` |
+To update, run the same command again. To remove everything it wrote, add `-- --uninstall`. To remove one agent, add `-- --uninstall --only <agent>`.
 
-- opencode, Cursor and Copilot ask which models to use. Answer during install, pass `--models <agent>=<planner>,<heavy>,<light>`, or skip it: the first run of a skill then asks and can save the choice in the project.
-- Never replaces a folder or file it did not write, including symlinks. `--uninstall` removes only what it wrote.
+#### What it writes
 
-Known limits:
+- The seventeen skills, once, to `~/.agents/skills`. All five agents read that folder. Each copy is translated on the way: the Claude model names become three roles, and the skill gets a table of the models each installed agent uses.
+- Two executor sub-agents, `levels-heavy` and `levels-light`, in each agent's own folder and format.
+- With `--project`, the same files go into the current project instead of your home folder.
+
+It never replaces a folder or file it did not write, including symlinks. If it finds one, it stops and changes nothing. `--force` replaces them.
+
+#### Models
+
+| Agent | Planner (your session) | Heavy | Light |
+|---|---|---|---|
+| Codex CLI | `gpt-6.1-sol`, reasoning effort high | `gpt-6.1-sol`, reasoning effort medium | `gpt-6-luna` |
+| Gemini CLI | `gemini-4-argon` | `gemini-3.8-flash` | `gemini-3.5-flash-lite` |
+| opencode, Cursor, Copilot | your choice | your choice | your choice |
+
+The Planner takes the place of Opus, Heavy of Sonnet and Light of Haiku. To set models without the prompt, pass `--models <agent>=<planner>,<heavy>,<light>`, for example `--models opencode=anthropic/claude-opus-5-5,anthropic/claude-sonnet-5-5,anthropic/claude-haiku-5-5`. This also overrides the Codex and Gemini defaults.
+
+#### Options
+
+| Option | Does |
+|---|---|
+| `--list` | Show the supported agents and which were found. |
+| `--only a,b` | Install for these agents only: `codex`, `gemini`, `opencode`, `cursor`, `copilot`. |
+| `--all` | Install for all five, found or not. |
+| `--models a=p,h,l` | Set the Planner, Heavy and Light models for one agent. |
+| `--project` | Install into the current project. |
+| `--dry-run` | Print what would change. |
+| `--uninstall` | Remove what the installer wrote. |
+| `--yes` | Ask no questions. |
+| `--force` | Replace folders the installer did not write. |
+
+#### Known limits
 
 - Gemini CLI's model page lists older model IDs than the Gemini API page. If a sub-agent does not start, pass your own with `--models gemini=...`.
 - Skill arguments, the question prompts and sub-agent delegation depend on each agent. Where an agent cannot start a named sub-agent, the skill offers to run without delegation.
 - opencode and Cursor also read `~/.claude/skills`. If you copied the skills there for Claude Code, they will list each skill twice.
-- In Codex, start a skill with `$design-level` instead of `/design-level`.
 
 ## Quick start
 
@@ -297,7 +329,7 @@ Below the block, each skill keeps a section with its profile, findings and date,
 
 **Which models does it use?** Opus for thinking and review, Haiku or Sonnet for execution. See [Models and cost](#models-and-cost).
 
-**Does it work with other agents?** Levels is written for Claude Code. The installer in [For other agents](#for-other-agents) adapts it for Codex CLI, Gemini CLI, opencode, Cursor and GitHub Copilot CLI. How well each agent follows the skills is unconfirmed.
+**Does it work with other agents?** Levels is written for Claude Code. The installer in [Other agents](#other-agents) adapts it for Codex CLI, Gemini CLI, opencode, Cursor and GitHub Copilot CLI. How well each agent follows the skills is unconfirmed.
 
 **It asked for a level I do not understand.** Run `/levels-help <skill>` to see that skill's five levels.
 
