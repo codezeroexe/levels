@@ -53,7 +53,7 @@ test('writes sub-agents with fixed models for Codex and Gemini only', () => {
   }
   const skill = fs.readFileSync(path.join(home, '.agents', 'skills', 'design-level', 'SKILL.md'), 'utf8');
   assert.match(skill, /\| opencode \| not chosen \| not chosen \| not chosen \|/);
-  assert.match(skill, /\| Codex CLI \| `gpt-6.1-sol`, reasoning effort high, or `gpt-6-astra` \|/);
+  assert.match(skill, /\| Codex CLI \| `gpt-6.1-sol`, reasoning effort high, or `gpt-6-astra` \(costs more\) \|/);
 });
 
 test('--models writes the chosen models', () => {

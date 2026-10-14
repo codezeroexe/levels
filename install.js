@@ -31,7 +31,7 @@ const AGENTS = {
     invoke: '$name',
     models: { planner: 'gpt-6.1-sol', heavy: 'gpt-6.1-sol', light: 'gpt-6-luna' },
     effort: { planner: 'high', heavy: 'medium' },
-    // Also accepted as Planner: the most capable Codex model, at a higher cost.
+    // Accepted as Planner only after the user agrees to the higher cost.
     alsoPlanner: ['gpt-6-astra'],
     agentFile: (role) => path.join('.codex', 'agents', `levels-${role}.toml`),
     hint: 'a Codex model ID, for example gpt-6.1-sol or gpt-6-luna',
@@ -189,8 +189,8 @@ const LINE_RULES = [
     'Arguments: the text the user gave after the skill name. If there is none, use the defaults below.'],
   ['- Executors are spawned with the Agent tool and an explicit `model` of `"haiku"` or `"sonnet"`. Never leave the model unset.',
     '- Executors are started as the `levels-light` or `levels-heavy` sub-agent. Never run a sub-plan in a general sub-agent, because its model is not set.'],
-  ['- If this session is not running Opus or Fable, say which model is running and ask the user whether to continue on it or stop. On Fable, read Opus in this skill as Fable, including in printed lines.',
-    '- If this session is not running a Planner model in your row of the table above, say which model is running and ask the user whether to continue on it or stop.'],
+  ['- If this session runs Opus, continue. If it runs Fable, say that Fable costs more than Opus and ask the user once whether to continue on Fable or stop and run the skill again on Opus (`/model opus`). On Fable, read Opus in this skill as Fable, including in printed lines. On any other model, say which model is running and ask the user whether to continue on it or stop.',
+    '- If this session runs the first Planner model in your row of the table above, continue. If it runs a Planner model marked "costs more", say so and ask the user once whether to continue on it or stop and run the skill again on the first one. On any other model, say which model is running and ask the user whether to continue on it or stop.'],
   ["spawn an agent on this session's model (`opus` or `fable`) with no conversation history",
     'start a fresh sub-agent with no conversation history, on the Planner model if your agent lets you set it'],
   ['Use one AskUserQuestion call with four questions, each with `multiSelect: true`.',
@@ -237,7 +237,7 @@ function modelTable(installed) {
     const effort = AGENTS[id].effort || {};
     const cell = (r) => (models && models[r]
       ? `\`${models[r]}\`${effort[r] ? `, reasoning effort ${effort[r]}` : ''}` +
-        (r === 'planner' ? (AGENTS[id].alsoPlanner || []).map((m) => `, or \`${m}\``).join('') : '')
+        (r === 'planner' ? (AGENTS[id].alsoPlanner || []).map((m) => `, or \`${m}\` (costs more)`).join('') : '')
       : 'not chosen');
     rows.push(`| ${AGENTS[id].label} | ${cell('planner')} | ${cell('heavy')} | ${cell('light')} |`);
   }

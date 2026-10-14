@@ -20,7 +20,7 @@ BLOCK = re.compile(r"<!-- levels\n(.*?)\n-->", re.S)
 # Lines that must read the same in every layer skill.
 SHARED = [
     "Each level includes everything in the levels below it. The current level is the highest level",
-    "- If this session is not running Opus or Fable, say which model is running and ask the user whether to continue on it or stop. On Fable, read Opus in this skill as Fable, including in printed lines.",
+    "- If this session runs Opus, continue. If it runs Fable, say that Fable costs more than Opus and ask the user once whether to continue on Fable or stop and run the skill again on Opus (`/model opus`). On Fable, read Opus in this skill as Fable, including in printed lines. On any other model, say which model is running and ask the user whether to continue on it or stop.",
     "`Delegation: <n> sub-plans on Haiku, <n> on Sonnet. Review on Opus.`",
     "**Rules for every handoff.** Ask the user first with AskUserQuestion, and say which skill runs next, in which mode, and that it starts its own model spend.",
     "This skill is one of the connected level skills",
