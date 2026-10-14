@@ -1,6 +1,6 @@
 {
   "name": "levels",
-  "description": "The levels skill set for Claude Code",
+  "description": "Rate, plan and raise parts of a project on a 1 to 5 scale, with delegated execution behind a gate.",
   "owner": {
     "name": "codezeroexe",
     "url": "https://github.com/codezeroexe"

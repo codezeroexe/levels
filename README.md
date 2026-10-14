@@ -4,16 +4,14 @@
 
 <p align="center">
   <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-c96442?labelColor=191817"></a>
-  <img alt="Version 0.1.0" src="https://img.shields.io/badge/version-0.1.0-c96442?labelColor=191817">
-  <img alt="17 skills" src="https://img.shields.io/badge/skills-17-c96442?labelColor=191817">
-  <img alt="For Claude Code" src="https://img.shields.io/badge/for-Claude%20Code-c96442?labelColor=191817">
+  <a href="https://github.com/codezeroexe/levels/actions/workflows/validate.yml"><img alt="Validate" src="https://github.com/codezeroexe/levels/actions/workflows/validate.yml/badge.svg"></a>
 </p>
 
 <p align="center">
+  <a href="#see-it-run">See it run</a> ·
   <a href="#install">Install</a> ·
   <a href="#quick-start">Quick start</a> ·
   <a href="#why-levels">Why Levels</a> ·
-  <a href="#see-it-run">See it run</a> ·
   <a href="#the-levels">The levels</a> ·
   <a href="#how-a-run-goes">How a run goes</a> ·
   <a href="#skills">Skills</a> ·
@@ -22,9 +20,41 @@
 
 # Levels
 
-**Think big. Type cheap.**
-
 Levels is a set of seventeen skills for Claude Code. Each layer skill rates one part of a project (interface, backend, tests, security and so on) on a scale from 1 to 5, shows what is missing for the level you choose, and proposes options. If you ask it to build, it splits the work into small sub-plans and hands them to cheaper models, after showing you the plan and asking first.
+
+## See it run
+
+<p align="center">
+  <img src="docs/assets/session.svg" alt="Illustrative output of an audit and of the delegation gate. The same output is in text below." width="100%">
+</p>
+
+<details>
+<summary>The example output as text</summary>
+
+```
+$ /design-level 3 audit
+Level now: 0. Target: 3.
+Evidence: public/index.html:3 has one inline style rule and no viewport tag.
+Open gaps: 9
+Top gaps: phone layout, type scale, palette with roles.
+
+Note: level 3 is too high for a one-screen notes tool. Level 2 fits.
+```
+
+```
+$ /design-level 2 build
+Delegation: 6 sub-plans on Haiku, 2 on Sonnet. Review on Opus.
+
+Proceed?
+> Delegate as planned
+  Haiku only
+  Sonnet for all
+  No delegation
+```
+
+</details>
+
+This is example output, adapted from the [first test run](docs/example-LEVELS.md) on a one-page notes app. The delegation counts in the build panel are illustrative. Your output depends on your project.
 
 ## Install
 
@@ -88,19 +118,32 @@ Layer skills start in `audit` mode unless you say `build`. An audit rates and pr
 
 **It tells you when to stop.** Level 5 is not the goal. The skills are written to say when a target is too high for the product. In the [first test run](docs/example-LEVELS.md), the interface audit of a one-screen notes tool noted that level 3 was too high and level 2 fit.
 
-## See it run
-
-<p align="center">
-  <img src="docs/assets/session.svg" alt="Illustrative output of an audit and of the delegation gate." width="100%">
-</p>
-
-This is example output, adapted from the [first test run](docs/example-LEVELS.md) on a one-page notes app. The delegation counts in the build panel are illustrative. Your output depends on your project.
-
 ## The levels
 
 <p align="center">
-  <img src="docs/assets/levels-matrix.svg" alt="The five named levels of each of the thirteen layer skills." width="100%">
+  <img src="docs/assets/levels-matrix.svg" alt="The five named levels of each of the thirteen layer skills. The same names are in the table below." width="100%">
 </p>
+
+<details>
+<summary>The levels as a table</summary>
+
+| Skill | 1 | 2 | 3 | 4 | 5 |
+|---|---|---|---|---|---|
+| `idea-level` | Spark | Shaped | Tested | Validated | Blueprint |
+| `ux-level` | Possible | Clear | Guided | Observed | Tuned |
+| `restyle-level` | Directions | Sketch | Mockup | Prototype | Handover |
+| `data-level` | Stored | Structured | Trustworthy | Governed | Platform |
+| `backend-level` | Working | Reliable | Production | Hardened | Scale |
+| `design-level` | Clean | Considered | Branded | Studio | Showcase |
+| `test-level` | Checked | Core covered | Trusted | Proven | Continuous |
+| `security-level` | Basic | Guarded | Defended | Hardened | Assured |
+| `perf-level` | Acceptable | Measured | Budgeted | Guarded | Optimised |
+| `code-level` | Readable | Organised | Sound | Sustainable | Exemplary |
+| `docs-level` | Present | Usable | Complete | Maintained | Published |
+| `ship-level` | Runnable | Repeatable | Releasable | Operated | Resilient |
+| `pitch-level` | Stated | Shown | Convincing | Rehearsed | Campaign |
+
+</details>
 
 - Each level includes everything in the levels below it.
 - Your current level is the highest level whose requirements, and those of every level below it, are all met.

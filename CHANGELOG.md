@@ -32,6 +32,10 @@ First packaged version.
 - `data-level`, `pitch-level` and `idea-level` use the shared handoff rule and delegation line word for word.
 - `docs/example-LEVELS.md`, a filled-in record from the test run.
 
+### Changed
+
+- `security-level` level 1 is named Basic instead of Clean, so `design-level` is the only skill with a level called Clean.
+
 ### Removed
 
 - `fullstack-level`. `levels` runs `backend-level` and `design-level` in order and now carries the cross-layer check. `idea-level`, `design-level`, `backend-level`, `restyle-level` and `levels-next` point to `levels` or to the single layer skills instead.
