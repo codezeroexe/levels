@@ -22,6 +22,12 @@ Use the "Bug in a skill" issue template. Say which skill, the exact command, you
 
    The second command checks the frontmatter, the required sections, the lines every layer skill shares, the skill names used in handoffs and the levels block examples. The same checks run on every push and pull request.
 
+   ```bash
+   node --test scripts/install.test.js
+   ```
+
+   This checks that `install.js` still translates every skill for other agents. It fails if a Claude-only term (a model name, `AskUserQuestion`, `$ARGUMENTS`, the Agent tool) is left after translation. If you add such a term in a new sentence, add a rule for it to `LINE_RULES` or `WORD_RULES` in `install.js`.
+
 4. Try the skill. Load the repository as a plugin for one session with `claude --plugin-dir .`, then run the skill in a throwaway project. Say in the pull request what you ran and what you did not run.
 5. Add a line to `CHANGELOG.md`.
 

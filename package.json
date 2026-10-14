@@ -1,0 +1,25 @@
+{
+  "name": "levels-skills",
+  "version": "0.1.0",
+  "description": "Installer for the Levels skills on Codex CLI, Gemini CLI, opencode, Cursor and GitHub Copilot CLI.",
+  "license": "MIT",
+  "homepage": "https://github.com/codezeroexe/levels",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codezeroexe/levels.git"
+  },
+  "bin": {
+    "levels-install": "install.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "install.js",
+    "skills/",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test scripts/install.test.js"
+  }
+}
