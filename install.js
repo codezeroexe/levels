@@ -97,7 +97,8 @@ function parseArgs(argv) {
       if (i + 1 >= argv.length) fail(`${a} needs a value`);
       return argv[++i];
     };
-    if (a === '--only') opts.only = next().split(',').map((s) => s.trim()).filter(Boolean);
+    if (a === '--') continue; // npx passes it through
+    else if (a === '--only') opts.only = next().split(',').map((s) => s.trim()).filter(Boolean);
     else if (a === '--all') opts.all = true;
     else if (a === '--list') opts.list = true;
     else if (a === '--dry-run') opts.dryRun = true;
